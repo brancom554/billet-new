@@ -39,6 +39,7 @@ class EventController extends MyBaseController
      */
     public function postCreateEvent(Request $request)
     {
+        
         $event = Event::createNew();
 
         if (!$event->validate($request->all())) {
@@ -49,6 +50,7 @@ class EventController extends MyBaseController
         }
 
         $event->title = $request->get('title');
+        $event->category = $request->get('category');
         $event->description = prepare_markdown($request->get('description'));
         $event->start_date = $request->get('start_date');
 

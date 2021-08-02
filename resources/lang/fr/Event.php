@@ -33,6 +33,7 @@ return array (
   'event_orders' => 'Commandes pour l\'événement',
   'event_start_date' => 'Date de début de l\'événement',
   'event_title' => 'Titre de l\'événement',
+  'event_category' => 'Catégorie de l\'événement',
   'event_title_placeholder' => 'Ex : conférence internationale de :name',
   'event_visibility' => 'Visibilité de l\'événement',
   'n_attendees_for_event' => '<b>:num</b> participant(s) pour l\'événement : <b>:name</b> (:date)',

@@ -16,7 +16,9 @@
 /**
  * @OA\Info(
  *   title="Testing annotations from bugreports",
- *    version="1.0.0"
+ *   version="1.0.0",
+ *   description="NOTE:
+This sentence is on a new line"
  * )
  */
 
@@ -33,6 +35,8 @@
  */
 
 /**
+ * An API endpoint.
+ *
  * @OA\Get(
  *   path="/api/endpoint",
  *   @OA\Parameter(name="filter",in="query", @OA\JsonContent(

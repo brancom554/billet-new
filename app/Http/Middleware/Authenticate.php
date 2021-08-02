@@ -38,7 +38,7 @@ class Authenticate extends Middleware
                 return response('Unauthorized.', 401);
             }
 
-            return redirect()->guest('login');
+            return redirect()->guest('/accueil');
         }
         $this->authenticate($request, $guards);
 

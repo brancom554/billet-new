@@ -38,12 +38,12 @@ class RemindersApiController extends ApiBaseController
      */
     protected function getEmailSubject()
     {
-        return isset($this->subject) ? 
+      return isset($this->subject) ? 
         
         response()->json([
             'success'   =>  true,
-            'data' => $this->subject
-        ], 200);  : 
+            'data' => $this->subject,
+        ], 200)  :
         
         response()->json([
             'success'   =>  false,
@@ -88,7 +88,7 @@ class RemindersApiController extends ApiBaseController
             case PasswordBroker::INVALID_USER:
                 return response()->json([
                     'success'   =>  false,
-                    'massage' => 'Invalid User'
+                    'massage' => 'Invalid User',
                     'email' => trans($response)
                 ], 404);
 

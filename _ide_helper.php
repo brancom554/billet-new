@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 6.20.27.
+ * Generated for Laravel 6.20.30.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -1467,10 +1467,6 @@
             /**
      * 
      *
-     * @method static \Illuminate\Contracts\Auth\Authenticatable loginUsingId(mixed $id, bool $remember = false)
-     * @method static bool viaRemember()
-     * @method static \Symfony\Component\HttpFoundation\Response|null onceBasic(string $field = 'email',array $extraConditions = [])
-     * @method static bool|null logoutOtherDevices(string $password, string $attribute = 'password')
      * @see \Illuminate\Auth\AuthManager
      * @see \Illuminate\Contracts\Auth\Factory
      * @see \Illuminate\Contracts\Auth\Guard
@@ -1655,20 +1651,43 @@
          */ 
         public static function user()
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
                         return $instance->user();
         }
                     /**
-         * Get the currently authenticated user or throws an exception.
+         * Get the ID for the currently authenticated user.
          *
-         * @throws \Tymon\JWTAuth\Exceptions\UserNotDefinedException
-         * @return \App\Models\User 
+         * @return int|null 
          * @static 
          */ 
-        public static function userOrFail()
+        public static function id()
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->userOrFail();
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->id();
+        }
+                    /**
+         * Log a user into the application without sessions or cookies.
+         *
+         * @param array $credentials
+         * @return bool 
+         * @static 
+         */ 
+        public static function once($credentials = [])
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->once($credentials);
+        }
+                    /**
+         * Log the given user ID into the application without sessions or cookies.
+         *
+         * @param mixed $id
+         * @return \App\Models\User|false 
+         * @static 
+         */ 
+        public static function onceUsingId($id)
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->onceUsingId($id);
         }
                     /**
          * Validate a user's credentials.
@@ -1679,233 +1698,122 @@
          */ 
         public static function validate($credentials = [])
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
                         return $instance->validate($credentials);
         }
                     /**
-         * Attempt to authenticate the user using the given credentials and return the token.
+         * Attempt to authenticate using HTTP Basic Auth.
+         *
+         * @param string $field
+         * @param array $extraConditions
+         * @return \Symfony\Component\HttpFoundation\Response|null 
+         * @static 
+         */ 
+        public static function basic($field = 'email', $extraConditions = [])
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->basic($field, $extraConditions);
+        }
+                    /**
+         * Perform a stateless HTTP Basic login attempt.
+         *
+         * @param string $field
+         * @param array $extraConditions
+         * @return \Symfony\Component\HttpFoundation\Response|null 
+         * @static 
+         */ 
+        public static function onceBasic($field = 'email', $extraConditions = [])
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->onceBasic($field, $extraConditions);
+        }
+                    /**
+         * Attempt to authenticate a user using the given credentials.
          *
          * @param array $credentials
-         * @param bool $login
-         * @return bool|string 
+         * @param bool $remember
+         * @return bool 
          * @static 
          */ 
-        public static function attempt($credentials = [], $login = true)
+        public static function attempt($credentials = [], $remember = false)
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->attempt($credentials, $login);
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->attempt($credentials, $remember);
         }
                     /**
-         * Create a token for a user.
+         * Log the given user ID into the application.
          *
-         * @param \Tymon\JWTAuth\Contracts\JWTSubject $user
-         * @return string 
+         * @param mixed $id
+         * @param bool $remember
+         * @return \App\Models\User|false 
          * @static 
          */ 
-        public static function login($user)
+        public static function loginUsingId($id, $remember = false)
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->login($user);
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->loginUsingId($id, $remember);
         }
                     /**
-         * Logout the user, thus invalidating the token.
+         * Log a user into the application.
          *
-         * @param bool $forceForever
+         * @param \Illuminate\Contracts\Auth\Authenticatable $user
+         * @param bool $remember
          * @return void 
          * @static 
          */ 
-        public static function logout($forceForever = false)
+        public static function login($user, $remember = false)
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        $instance->logout($forceForever);
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        $instance->login($user, $remember);
         }
                     /**
-         * Refresh the token.
+         * Log the user out of the application.
          *
-         * @param bool $forceForever
-         * @param bool $resetClaims
-         * @return string 
+         * @return void 
          * @static 
          */ 
-        public static function refresh($forceForever = false, $resetClaims = false)
+        public static function logout()
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->refresh($forceForever, $resetClaims);
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        $instance->logout();
         }
                     /**
-         * Invalidate the token.
+         * Log the user out of the application on their current device only.
          *
-         * @param bool $forceForever
-         * @return \Tymon\JWTAuth\JWT 
+         * @return void 
          * @static 
          */ 
-        public static function invalidate($forceForever = false)
+        public static function logoutCurrentDevice()
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->invalidate($forceForever);
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        $instance->logoutCurrentDevice();
         }
                     /**
-         * Create a new token by User id.
+         * Invalidate other sessions for the current user.
+         * 
+         * The application must be using the AuthenticateSession middleware.
          *
-         * @param mixed $id
-         * @return string|null 
+         * @param string $password
+         * @param string $attribute
+         * @return bool|null 
          * @static 
          */ 
-        public static function tokenById($id)
+        public static function logoutOtherDevices($password, $attribute = 'password')
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->tokenById($id);
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->logoutOtherDevices($password, $attribute);
         }
                     /**
-         * Log a user into the application using their credentials.
+         * Register an authentication attempt event listener.
          *
-         * @param array $credentials
-         * @return bool 
+         * @param mixed $callback
+         * @return void 
          * @static 
          */ 
-        public static function once($credentials = [])
+        public static function attempting($callback)
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->once($credentials);
-        }
-                    /**
-         * Log the given User into the application.
-         *
-         * @param mixed $id
-         * @return bool 
-         * @static 
-         */ 
-        public static function onceUsingId($id)
-        {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->onceUsingId($id);
-        }
-                    /**
-         * Alias for onceUsingId.
-         *
-         * @param mixed $id
-         * @return bool 
-         * @static 
-         */ 
-        public static function byId($id)
-        {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->byId($id);
-        }
-                    /**
-         * Add any custom claims.
-         *
-         * @param array $claims
-         * @return \Tymon\JWTAuth\JWTGuard 
-         * @static 
-         */ 
-        public static function claims($claims)
-        {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->claims($claims);
-        }
-                    /**
-         * Get the raw Payload instance.
-         *
-         * @return \Tymon\JWTAuth\Payload 
-         * @static 
-         */ 
-        public static function getPayload()
-        {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->getPayload();
-        }
-                    /**
-         * Alias for getPayload().
-         *
-         * @return \Tymon\JWTAuth\Payload 
-         * @static 
-         */ 
-        public static function payload()
-        {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->payload();
-        }
-                    /**
-         * Set the token.
-         *
-         * @param \Tymon\JWTAuth\Token|string $token
-         * @return \Tymon\JWTAuth\JWTGuard 
-         * @static 
-         */ 
-        public static function setToken($token)
-        {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->setToken($token);
-        }
-                    /**
-         * Set the token ttl.
-         *
-         * @param int $ttl
-         * @return \Tymon\JWTAuth\JWTGuard 
-         * @static 
-         */ 
-        public static function setTTL($ttl)
-        {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->setTTL($ttl);
-        }
-                    /**
-         * Get the user provider used by the guard.
-         *
-         * @return \Illuminate\Contracts\Auth\UserProvider 
-         * @static 
-         */ 
-        public static function getProvider()
-        {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->getProvider();
-        }
-                    /**
-         * Set the user provider used by the guard.
-         *
-         * @param \Illuminate\Contracts\Auth\UserProvider $provider
-         * @return \Tymon\JWTAuth\JWTGuard 
-         * @static 
-         */ 
-        public static function setProvider($provider)
-        {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->setProvider($provider);
-        }
-                    /**
-         * Return the currently cached user.
-         *
-         * @return \App\Models\User|null 
-         * @static 
-         */ 
-        public static function getUser()
-        {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->getUser();
-        }
-                    /**
-         * Get the current request instance.
-         *
-         * @return \Illuminate\Http\Request 
-         * @static 
-         */ 
-        public static function getRequest()
-        {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->getRequest();
-        }
-                    /**
-         * Set the current request instance.
-         *
-         * @param \Illuminate\Http\Request $request
-         * @return \Tymon\JWTAuth\JWTGuard 
-         * @static 
-         */ 
-        public static function setRequest($request)
-        {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->setRequest($request);
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        $instance->attempting($callback);
         }
                     /**
          * Get the last user we attempted to authenticate.
@@ -1915,8 +1823,145 @@
          */ 
         public static function getLastAttempted()
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
                         return $instance->getLastAttempted();
+        }
+                    /**
+         * Get a unique identifier for the auth session value.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getName()
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->getName();
+        }
+                    /**
+         * Get the name of the cookie used to store the "recaller".
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getRecallerName()
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->getRecallerName();
+        }
+                    /**
+         * Determine if the user was authenticated via "remember me" cookie.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function viaRemember()
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->viaRemember();
+        }
+                    /**
+         * Get the cookie creator instance used by the guard.
+         *
+         * @return \Illuminate\Contracts\Cookie\QueueingFactory 
+         * @throws \RuntimeException
+         * @static 
+         */ 
+        public static function getCookieJar()
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->getCookieJar();
+        }
+                    /**
+         * Set the cookie creator instance used by the guard.
+         *
+         * @param \Illuminate\Contracts\Cookie\QueueingFactory $cookie
+         * @return void 
+         * @static 
+         */ 
+        public static function setCookieJar($cookie)
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        $instance->setCookieJar($cookie);
+        }
+                    /**
+         * Get the event dispatcher instance.
+         *
+         * @return \Illuminate\Contracts\Events\Dispatcher 
+         * @static 
+         */ 
+        public static function getDispatcher()
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->getDispatcher();
+        }
+                    /**
+         * Set the event dispatcher instance.
+         *
+         * @param \Illuminate\Contracts\Events\Dispatcher $events
+         * @return void 
+         * @static 
+         */ 
+        public static function setDispatcher($events)
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        $instance->setDispatcher($events);
+        }
+                    /**
+         * Get the session store used by the guard.
+         *
+         * @return \Illuminate\Contracts\Session\Session 
+         * @static 
+         */ 
+        public static function getSession()
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->getSession();
+        }
+                    /**
+         * Return the currently cached user.
+         *
+         * @return \App\Models\User|null 
+         * @static 
+         */ 
+        public static function getUser()
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->getUser();
+        }
+                    /**
+         * Set the current user.
+         *
+         * @param \Illuminate\Contracts\Auth\Authenticatable $user
+         * @return \Illuminate\Auth\SessionGuard 
+         * @static 
+         */ 
+        public static function setUser($user)
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->setUser($user);
+        }
+                    /**
+         * Get the current request instance.
+         *
+         * @return \Symfony\Component\HttpFoundation\Request 
+         * @static 
+         */ 
+        public static function getRequest()
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->getRequest();
+        }
+                    /**
+         * Set the current request instance.
+         *
+         * @param \Symfony\Component\HttpFoundation\Request $request
+         * @return \Illuminate\Auth\SessionGuard 
+         * @static 
+         */ 
+        public static function setRequest($request)
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->setRequest($request);
         }
                     /**
          * Determine if current user is authenticated. If not, throw an exception.
@@ -1927,7 +1972,7 @@
          */ 
         public static function authenticate()
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
                         return $instance->authenticate();
         }
                     /**
@@ -1938,7 +1983,7 @@
          */ 
         public static function hasUser()
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
                         return $instance->hasUser();
         }
                     /**
@@ -1949,7 +1994,7 @@
          */ 
         public static function check()
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
                         return $instance->check();
         }
                     /**
@@ -1960,31 +2005,31 @@
          */ 
         public static function guest()
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
                         return $instance->guest();
         }
                     /**
-         * Get the ID for the currently authenticated user.
+         * Get the user provider used by the guard.
          *
-         * @return int|null 
+         * @return \Illuminate\Contracts\Auth\UserProvider 
          * @static 
          */ 
-        public static function id()
+        public static function getProvider()
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->id();
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->getProvider();
         }
                     /**
-         * Set the current user.
+         * Set the user provider used by the guard.
          *
-         * @param \Illuminate\Contracts\Auth\Authenticatable $user
-         * @return \Tymon\JWTAuth\JWTGuard 
+         * @param \Illuminate\Contracts\Auth\UserProvider $provider
+         * @return void 
          * @static 
          */ 
-        public static function setUser($user)
+        public static function setProvider($provider)
         {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->setUser($user);
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        $instance->setProvider($provider);
         }
                     /**
          * Register a custom macro.
@@ -1996,7 +2041,7 @@
          */ 
         public static function macro($name, $macro)
         {
-                        \Tymon\JWTAuth\JWTGuard::macro($name, $macro);
+                        \Illuminate\Auth\SessionGuard::macro($name, $macro);
         }
                     /**
          * Mix another object into the class.
@@ -2009,7 +2054,7 @@
          */ 
         public static function mixin($mixin, $replace = true)
         {
-                        \Tymon\JWTAuth\JWTGuard::mixin($mixin, $replace);
+                        \Illuminate\Auth\SessionGuard::mixin($mixin, $replace);
         }
                     /**
          * Checks if macro is registered.
@@ -2020,21 +2065,7 @@
          */ 
         public static function hasMacro($name)
         {
-                        return \Tymon\JWTAuth\JWTGuard::hasMacro($name);
-        }
-                    /**
-         * Dynamically handle calls to the class.
-         *
-         * @param string $method
-         * @param array $parameters
-         * @return mixed 
-         * @throws \BadMethodCallException
-         * @static 
-         */ 
-        public static function macroCall($method, $parameters)
-        {
-                        /** @var \Tymon\JWTAuth\JWTGuard $instance */
-                        return $instance->macroCall($method, $parameters);
+                        return \Illuminate\Auth\SessionGuard::hasMacro($name);
         }
          
     }
@@ -7415,6 +7446,57 @@
                         return $instance->setConnectionName($name);
         }
                     /**
+         * Release a reserved job back onto the queue.
+         *
+         * @param string $queue
+         * @param \Illuminate\Queue\Jobs\DatabaseJobRecord $job
+         * @param int $delay
+         * @return mixed 
+         * @static 
+         */ 
+        public static function release($queue, $job, $delay)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->release($queue, $job, $delay);
+        }
+                    /**
+         * Delete a reserved job from the queue.
+         *
+         * @param string $queue
+         * @param string $id
+         * @return void 
+         * @throws \Exception|\Throwable
+         * @static 
+         */ 
+        public static function deleteReserved($queue, $id)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        $instance->deleteReserved($queue, $id);
+        }
+                    /**
+         * Get the queue or return the default.
+         *
+         * @param string|null $queue
+         * @return string 
+         * @static 
+         */ 
+        public static function getQueue($queue)
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->getQueue($queue);
+        }
+                    /**
+         * Get the underlying database instance.
+         *
+         * @return \Illuminate\Database\Connection 
+         * @static 
+         */ 
+        public static function getDatabase()
+        {
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
+                        return $instance->getDatabase();
+        }
+                    /**
          * Get the retry delay for an object-based queue handler.
          *
          * @param mixed $job
@@ -7423,7 +7505,7 @@
          */ 
         public static function getJobRetryDelay($job)
         {            //Method inherited from \Illuminate\Queue\Queue         
-                        /** @var \Illuminate\Queue\SyncQueue $instance */
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
                         return $instance->getJobRetryDelay($job);
         }
                     /**
@@ -7435,7 +7517,7 @@
          */ 
         public static function getJobExpiration($job)
         {            //Method inherited from \Illuminate\Queue\Queue         
-                        /** @var \Illuminate\Queue\SyncQueue $instance */
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
                         return $instance->getJobExpiration($job);
         }
                     /**
@@ -7447,7 +7529,7 @@
          */ 
         public static function createPayloadUsing($callback)
         {            //Method inherited from \Illuminate\Queue\Queue         
-                        \Illuminate\Queue\SyncQueue::createPayloadUsing($callback);
+                        \Illuminate\Queue\DatabaseQueue::createPayloadUsing($callback);
         }
                     /**
          * Set the IoC container instance.
@@ -7458,7 +7540,7 @@
          */ 
         public static function setContainer($container)
         {            //Method inherited from \Illuminate\Queue\Queue         
-                        /** @var \Illuminate\Queue\SyncQueue $instance */
+                        /** @var \Illuminate\Queue\DatabaseQueue $instance */
                         $instance->setContainer($container);
         }
          
@@ -13803,527 +13885,6 @@
      
 }
 
-    namespace Nitmedia\Wkhtml2pdf\Facades { 
-            /**
-     * 
-     *
-     */ 
-        class Wkhtml2pdf {
-                    /**
-         * 
-         *
-         * @param string $view
-         * @param array $data
-         * @param string $name
-         * @throws \Exception
-         * @static 
-         */ 
-        public static function html($view, $data = [], $name = 'file')
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->html($view, $data, $name);
-        }
-                    /**
-         * 
-         *
-         * @static 
-         */ 
-        public static function url($url, $name = 'file')
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->url($url, $name);
-        }
-                    /**
-         * Attempts to return the library's full help info
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getHelp()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getHelp();
-        }
-                    /**
-         * Set path to binary executable directory
-         *
-         * @throws Exception
-         * @return null 
-         * @static 
-         */ 
-        public static function setBinPath($path)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setBinPath($path);
-        }
-                    /**
-         * Get path to binary executable
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getBinPath()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getBinPath();
-        }
-                    /**
-         * Set filename of binary executable
-         *
-         * @return null 
-         * @static 
-         */ 
-        public static function setBinFile($name)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setBinFile($name);
-        }
-                    /**
-         * Get filename of binary executable
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getBinFile()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getBinFile();
-        }
-                    /**
-         * Get the binary executable
-         *
-         * @throws Exception
-         * @return string 
-         * @static 
-         */ 
-        public static function getBin()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getBin();
-        }
-                    /**
-         * Set absolute path where to store temporary HTML files
-         *
-         * @throws Exception
-         * @param string $path
-         * @return null 
-         * @static 
-         */ 
-        public static function setTmpPath($path)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setTmpPath($path);
-        }
-                    /**
-         * Get path where to store temporary HTML files
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getTmpPath()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getTmpPath();
-        }
-                    /**
-         * Set type of output mode
-         *
-         * @throws Exception
-         * @param string $mode
-         * @return null 
-         * @static 
-         */ 
-        public static function setOutputMode($mode)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setOutputMode($mode);
-        }
-                    /**
-         * Get type of output mode
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getOutputMode()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getOutputMode();
-        }
-                    /**
-         * Set absolute path where to read HTML file
-         *
-         * @throws Exception
-         * @param string $path
-         * @return null 
-         * @static 
-         */ 
-        public static function setHtmlPath($path)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setHtmlPath($path);
-        }
-                    /**
-         * Get path where to read HTML file
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getHtmlPath()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getHtmlPath();
-        }
-                    /**
-         * Set filename holding HTML
-         *
-         * @return null 
-         * @static 
-         */ 
-        public static function setHtmlFile($name)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setHtmlFile($name);
-        }
-                    /**
-         * Get filename holding HTML
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getHtmlFile()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getHtmlFile();
-        }
-                    /**
-         * Get the path+filename holding HTML
-         *
-         * @throws Exception
-         * @return string 
-         * @static 
-         */ 
-        public static function getHtmlPathFile()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getHtmlPathFile();
-        }
-                    /**
-         * Set page orientation (default is portrait)
-         *
-         * @param string $orientation
-         * @return null 
-         * @static 
-         */ 
-        public static function setOrientation($orientation)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setOrientation($orientation);
-        }
-                    /**
-         * Returns page orientation
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getOrientation()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getOrientation();
-        }
-                    /**
-         * Set page/paper size (default is A4)
-         *
-         * @param string $size
-         * @return null 
-         * @static 
-         */ 
-        public static function setPageSize($size)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setPageSize($size);
-        }
-                    /**
-         * Returns page size
-         *
-         * @return int 
-         * @static 
-         */ 
-        public static function getPageSize()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getPageSize();
-        }
-                    /**
-         * Automatically generate a TOC (table of contents) or not (default is disabled)
-         *
-         * @param boolean $toc
-         * @return \Nitmedia\Wkhtml2pdf\Wkhtmltopdf 
-         * @static 
-         */ 
-        public static function setTOC($toc = true)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setTOC($toc);
-        }
-                    /**
-         * Get value of whether automatic Table Of Contents generation is set
-         *
-         * @return boolean 
-         * @static 
-         */ 
-        public static function getTOC()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getTOC();
-        }
-                    /**
-         * Set the number of copies to make (default is 1)
-         *
-         * @param int $copies
-         * @return null 
-         * @static 
-         */ 
-        public static function setCopies($copies)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setCopies($copies);
-        }
-                    /**
-         * Get number of copies to make
-         *
-         * @return int 
-         * @static 
-         */ 
-        public static function getCopies()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getCopies();
-        }
-                    /**
-         * Whether to print in grayscale or not (default is off)
-         *
-         * @param boolean $mode
-         * @return null 
-         * @static 
-         */ 
-        public static function setGrayscale($mode)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setGrayscale($mode);
-        }
-                    /**
-         * Get if page will be printed in grayscale
-         *
-         * @return boolean 
-         * @static 
-         */ 
-        public static function getGrayscale()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getGrayscale();
-        }
-                    /**
-         * Set PDF title (default is HTML <title> of first document)
-         *
-         * @param string $title
-         * @return null 
-         * @static 
-         */ 
-        public static function setTitle($title)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setTitle($title);
-        }
-                    /**
-         * Get PDF document title
-         *
-         * @throws Exception
-         * @return string 
-         * @static 
-         */ 
-        public static function getTitle()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getTitle();
-        }
-                    /**
-         * Set header html (default is null)
-         *
-         * @param string $header
-         * @return null 
-         * @static 
-         */ 
-        public static function setHeaderHtml($header)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setHeaderHtml($header);
-        }
-                    /**
-         * Get header html
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getHeaderHtml()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getHeaderHtml();
-        }
-                    /**
-         * Set footer html (default is null)
-         *
-         * @param string $footer
-         * @return null 
-         * @static 
-         */ 
-        public static function setFooterHtml($footer)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setFooterHtml($footer);
-        }
-                    /**
-         * Get footer html
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getFooterHtml()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getFooterHtml();
-        }
-                    /**
-         * Set http username
-         *
-         * @param string $username
-         * @return null 
-         * @static 
-         */ 
-        public static function setUsername($username)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setUsername($username);
-        }
-                    /**
-         * Get http username
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getUsername()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getUsername();
-        }
-                    /**
-         * Set http password
-         *
-         * @param string $password
-         * @return null 
-         * @static 
-         */ 
-        public static function setPassword($password)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setPassword($password);
-        }
-                    /**
-         * Get http password
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getPassword()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getPassword();
-        }
-                    /**
-         * Set any other WKTMLTOPDF options you need
-         *
-         * @param string $options
-         * @return null 
-         * @static 
-         */ 
-        public static function setOptions($options)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setOptions($options);
-        }
-                    /**
-         * Get any other WKTMLTOPDF options you need
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getOptions()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getOptions();
-        }
-                    /**
-         * Set URL to render
-         *
-         * @param string $html
-         * @return null 
-         * @static 
-         */ 
-        public static function setHttpUrl($url)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setHttpUrl($url);
-        }
-                    /**
-         * Get URL to render
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getHttpUrl()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getHttpUrl();
-        }
-                    /**
-         * Set HTML content to render (replaces any previous content)
-         *
-         * @param string $html
-         * @return null 
-         * @static 
-         */ 
-        public static function setHtml($html)
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->setHtml($html);
-        }
-                    /**
-         * Get current HTML content
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getHtml()
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->getHtml();
-        }
-                    /**
-         * Return PDF with various options.
-         *
-         * @param int $mode How to output (constants from this same class - c.f. 'PDF get modes')
-         * @param string $filename The PDF's filename (usage depends on $mode)
-         * @static 
-         */ 
-        public static function output($mode, $filename = '')
-        {
-                        /** @var \Nitmedia\Wkhtml2pdf\Wkhtml2pdf $instance */
-                        return $instance->output($mode, $filename);
-        }
-         
-    }
-     
-}
-
     namespace App\Attendize { 
             /**
      * 
@@ -14548,6 +14109,18 @@
         {
                         /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
                         return $instance->assertQueuedWithChain($chain);
+        }
+                    /**
+         * 
+         *
+         * @param string $classname
+         * @param callable|null $callback
+         * @static 
+         */ 
+        public static function assertExportedInRaw($classname, $callback = null)
+        {
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        return $instance->assertExportedInRaw($classname, $callback);
         }
                     /**
          * 
@@ -20770,7 +20343,6 @@ namespace  {
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
             class Markdown extends \GrahamCampbell\Markdown\Facades\Markdown {}
-            class PDF extends \Nitmedia\Wkhtml2pdf\Facades\Wkhtml2pdf {}
             class Utils extends \App\Attendize\Utils {}
             class Excel extends \Maatwebsite\Excel\Facades\Excel {}
             class JWTAuth extends \Tymon\JWTAuth\Facades\JWTAuth {}

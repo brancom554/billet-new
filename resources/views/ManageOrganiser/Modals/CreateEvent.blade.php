@@ -19,6 +19,19 @@
                             {!!  Form::text('title', old('title'),array('class'=>'form-control','placeholder'=>trans("Event.event_title_placeholder", ["name"=>Auth::user()->first_name]) ))  !!}
                         </div>
 
+                        <div class="form-group">
+                            {!! Form::Label('category', trans("Event.event_category"), array('class'=>'control-label required')) !!}
+                            {!! Form::select('category', array('Clubs & soirées' => 'Clubs & soirées',
+                             'Concerts & spectacles' => 'Concerts & spectacles',
+                             'Festivals' => 'Festivals',
+                             'Loisirs & lieux culturels' => 'Loisirs & lieux culturels',
+                             'Concerts & spectacles' => 'Concerts & spectacles',
+                             'Salons grand public' => 'Salons grand public',
+                             'Salons professionnels' => 'Salons professionnels',
+                             'Conférences' => 'Conférences'), null, ['class' => 'form-control']) !!}
+                           
+                        </div>
+
                         <div class="form-group custom-theme">
                             {!! Form::label('description', trans("Event.event_description"), array('class'=>'control-label required')) !!}
                             {!!  Form::textarea('description', old('description'),

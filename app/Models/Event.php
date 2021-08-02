@@ -82,6 +82,11 @@ class Event extends MyBaseModel
         return $this->hasMany(EventImage::class);
     }
 
+    public function image()
+    {
+        return $this->hasMany(EventImage::class)->select('image_path')->get()->toArray();
+    }
+
     /**
      * The messages associated with the event.
      *
@@ -100,6 +105,11 @@ class Event extends MyBaseModel
     public function tickets()
     {
         return $this->hasMany(Ticket::class);
+    }
+
+    public function ticket()
+    {
+        return $this->hasMany(Ticket::class)->select('price')->get()->toArray();
     }
 
     /**

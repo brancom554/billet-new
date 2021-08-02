@@ -9,6 +9,7 @@ return array (
   'sort' =>
   array (
     'event_title' => 'Event Title',
+    'event_category' => 'Event Category',
     'start_date' => 'Start Date',
     'created_at' => 'Creation Date',
     'quantity_sold' => 'Quantity Sold',

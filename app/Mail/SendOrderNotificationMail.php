@@ -45,7 +45,11 @@ class SendOrderNotificationMail extends Mailable
      */
     public function build()
     {
+        // return $this->subject('Test Mail using Queue in Larvel 8')            
+        //     ->view('Emails.OrderNotification');
+       
         $subject = trans("Controllers.new_order_received", ["event" => $this->order->event->title, "order" => $this->order->order_reference]);
+        dd($subject);
         return $this->subject($subject)
                     ->view('Emails.OrderNotification');
     }

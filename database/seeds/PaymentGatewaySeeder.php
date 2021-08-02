@@ -62,5 +62,23 @@ class PaymentGatewaySeeder extends Seeder
             );
         }
 
+        $kkiapayGateway = DB::table('payment_gateways')->where('name', '=', 'Dummy')->first();
+
+        if ($kkiapayGateway === null) {
+            // user doesn't exist
+            DB::table('payment_gateways')->insert(
+                [
+                    'provider_name' => 'kkiapay',
+                    'provider_url' => 'none',
+                    'is_on_site' => 1,
+                    'can_refund' => 1,
+                    'name' => 'kkiapay',
+                    'default' => 0,
+                    'admin_blade_template' => '',
+                    'checkout_blade_template' => ''
+                ]
+            );
+        }
+
     }
 }

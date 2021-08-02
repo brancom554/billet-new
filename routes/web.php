@@ -38,6 +38,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserLoginController;
 use App\Http\Controllers\UserLogoutController;
 use App\Http\Controllers\UserSignupController;
+use App\Http\Controllers\WelcomePagesController;
+
+
+   
 
 Route::group(
     [
@@ -50,6 +54,7 @@ Route::group(
      * Installer
      * -------------------------
      */
+
     Route::get('install',
         [InstallerController::class, 'showInstaller']
     )->name('showInstaller');
@@ -57,6 +62,14 @@ Route::group(
     Route::post('install',
         [InstallerController::class, 'postInstaller']
     )->name('postInstaller');
+
+    Route::get('/accueil', [WelcomePagesController::class, 'firstPage'])->name('accueil');
+
+    Route::get('/category/{name}', [WelcomePagesController::class, 'eventsByCategory'])->name('eventsByCategory');
+
+    Route::get('/event/{event_id}/details', [WelcomePagesController::class, 'eventsDetails'])->name('eventsDetails');
+
+
 
     /*
      * Logout
@@ -108,7 +121,7 @@ Route::group(
         )->name('showSignup');
 
         Route::post('/signup',
-            [UserSignupController::class, 'postSignup']);
+            [UserSignupController::class, 'postSignup'])->name('signup');
 
         /*
          * Confirm Email

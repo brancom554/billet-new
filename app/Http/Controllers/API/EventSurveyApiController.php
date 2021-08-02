@@ -41,7 +41,7 @@ class EventSurveyApiController extends ApiBaseController
 
         return response()->json([
             'status'  => 'success',
-            'data' => $data),
+            'data' => $data
         ]);
     }
 
@@ -104,7 +104,7 @@ class EventSurveyApiController extends ApiBaseController
 
         return response()->json([
             'status'      => 'success',
-            'message'     => trans("Controllers.successfully_created_question"));,
+            'message'     => trans("Controllers.successfully_created_question"),
         ]);
     }
 

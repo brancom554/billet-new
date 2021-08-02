@@ -34,7 +34,7 @@ class EventTicketsApiController extends ApiBaseController
         }
 
         // Find event or return 404 error.
-        $event = Event::scope()->find($event_id);
+        $event = Event::find($event_id);
         if ($event === null) {
             abort(404);
         }

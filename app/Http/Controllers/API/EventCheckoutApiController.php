@@ -281,15 +281,15 @@ class EventCheckoutApiController extends ApiBaseController
     public function postValidateOrder(Request $request, $event_id)
     {
         //If there's no session kill the request and redirect back to the event homepage.
-        if (!session()->get('ticket_order_' . $event_id)) {
-            return response()->json([
-                'status'      => 'error',
-                'message'     => 'Your session has expired.',
-                'redirectUrl' => route('showEventPage', [
-                    'event_id' => $event_id,
-                ])
-            ]);
-        }
+        // if (!session()->get('ticket_order_' . $event_id)) {
+        //     return response()->json([
+        //         'status'      => 'error',
+        //         'message'     => 'Your session has expired.',
+        //         'redirectUrl' => route('showEventPage', [
+        //             'event_id' => $event_id,
+        //         ])
+        //     ]);
+        // }
 
         $request_data = session()->get('ticket_order_' . $event_id . ".request_data");
         $request_data = (!empty($request_data[0])) ? array_merge($request_data[0], $request->all())
@@ -373,6 +373,7 @@ class EventCheckoutApiController extends ApiBaseController
                      'secondsToExpire' => $secondsToExpire,
                      'payment_failed' => $payment_failed
         ];
+        
 
         return view('Public.ViewEvent.EventPagePayment', $viewData);
     }
@@ -395,9 +396,10 @@ class EventCheckoutApiController extends ApiBaseController
         session()->push('ticket_order_' . $event_id . '.request_data', $request_data);
 
         $ticket_order = session()->get('ticket_order_' . $event_id);
-
         $event = Event::findOrFail($event_id);
 
+        // $order_requires_payment = 1;
+        
         $order_requires_payment = $ticket_order['order_requires_payment'];
 
         if ($order_requires_payment && $request->get('pay_offline') && $event->enable_offline_payments) {
@@ -407,6 +409,7 @@ class EventCheckoutApiController extends ApiBaseController
         if (!$order_requires_payment) {
             return $this->completeOrder($event_id);
         }
+        return $this->completeOrder($event_id);
 
         try {
 

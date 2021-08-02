@@ -8,19 +8,20 @@ namespace OpenApi\Tests;
 
 use OpenApi\Generator;
 use OpenApi\Logger;
+use OpenApi\Processors\OperationId;
 use OpenApi\Util;
 
 class GeneratorTest extends OpenApiTestCase
 {
-    const SOURCE_DIR = __DIR__.'/../Examples/swagger-spec/petstore-simple';
+    const SOURCE_DIR = __DIR__ . '/../Examples/swagger-spec/petstore-simple';
 
     public function sourcesProvider()
     {
         $sourceDir = self::SOURCE_DIR;
         $sources = [
-            $sourceDir.'/SimplePet.php',
-            $sourceDir.'/SimplePetsController.php',
-            $sourceDir.'/api.php',
+            $sourceDir . '/SimplePet.php',
+            $sourceDir . '/SimplePetsController.php',
+            $sourceDir . '/api.php',
         ];
 
         return [
@@ -56,5 +57,29 @@ class GeneratorTest extends OpenApiTestCase
         (new Generator($this->getPsrLogger(true)))
             ->setAliases(['swg' => 'OpenApi\Annotations'])
             ->generate($this->fixtures('Deprecated.php'));
+    }
+
+    public function processorCases()
+    {
+        return [
+            [new OperationId(false), false],
+            [new OperationId(true), true],
+            [new class(false) extends OperationId {
+            }, false],
+        ];
+    }
+
+    /**
+     * @dataProvider processorCases
+     */
+    public function testUpdateProcessor($p, $expected)
+    {
+        $generator = (new Generator())
+            ->updateProcessor($p);
+        foreach ($generator->getProcessors() as $processor) {
+            if ($processor instanceof OperationId) {
+                $this->assertSpecEquals($expected, $processor->isHash());
+            }
+        }
     }
 }

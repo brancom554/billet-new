@@ -279,6 +279,7 @@ class EventCheckoutController extends Controller
 
     public function postValidateOrder(Request $request, $event_id)
     {
+       
         //If there's no session kill the request and redirect back to the event homepage.
         if (!session()->get('ticket_order_' . $event_id)) {
             return response()->json([
@@ -386,7 +387,8 @@ class EventCheckoutController extends Controller
      * @throws \Exception
      */
     public function postCreateOrder(Request $request, $event_id)
-    {
+    {        
+        
         $request_data = $ticket_order = session()->get('ticket_order_' . $event_id . ".request_data",[0 => []]);
         $request_data = array_merge($request_data[0], $request->except(['cardnumber', 'cvc']));
 
@@ -394,9 +396,10 @@ class EventCheckoutController extends Controller
         session()->push('ticket_order_' . $event_id . '.request_data', $request_data);
 
         $ticket_order = session()->get('ticket_order_' . $event_id);
-
         $event = Event::findOrFail($event_id);
 
+        // $order_requires_payment = 1;
+        
         $order_requires_payment = $ticket_order['order_requires_payment'];
 
         if ($order_requires_payment && $request->get('pay_offline') && $event->enable_offline_payments) {
@@ -406,6 +409,7 @@ class EventCheckoutController extends Controller
         if (!$order_requires_payment) {
             return $this->completeOrder($event_id);
         }
+        return $this->completeOrder($event_id);
 
         try {
 
@@ -529,6 +533,8 @@ class EventCheckoutController extends Controller
     public function completeOrder($event_id, $return_json = true)
     {
         DB::beginTransaction();
+
+        
 
         try {
 
@@ -812,6 +818,7 @@ class EventCheckoutController extends Controller
             'image'     => base64_encode(file_get_contents(public_path($order->event->organiser->full_logo_path))),
             'images'    => $images,
         ];
+       
 
         if ($request->get('download') == '1') {
             return PDF::html('Public.ViewEvent.Partials.PDFTicket', $data, 'Tickets');

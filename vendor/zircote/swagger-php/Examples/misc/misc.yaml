@@ -1,6 +1,7 @@
 openapi: 3.0.0
 info:
   title: 'Testing annotations from bugreports'
+  description: "NOTE:\nThis sentence is on a new line"
   version: 1.0.0
 servers:
   -
@@ -15,6 +16,7 @@ servers:
 paths:
   /api/endpoint:
     get:
+      summary: 'An API endpoint.'
       parameters:
         -
           name: filter

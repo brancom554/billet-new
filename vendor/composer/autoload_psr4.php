@@ -85,6 +85,7 @@ return array(
     'Laravel\\Socialite\\' => array($vendorDir . '/laravel/socialite/src'),
     'Laracasts\\Utilities\\JavaScript\\' => array($vendorDir . '/laracasts/utilities/src'),
     'L5Swagger\\' => array($vendorDir . '/darkaonline/l5-swagger/src'),
+    'Kkiapay\\' => array($vendorDir . '/kkiapay/kkiapay-php/src'),
     'JsonSchema\\' => array($vendorDir . '/justinrainbow/json-schema/src/JsonSchema'),
     'JmesPath\\' => array($vendorDir . '/mtdowling/jmespath.php/src'),
     'JakubOnderka\\PhpConsoleHighlighter\\' => array($vendorDir . '/php-parallel-lint/php-console-highlighter/src'),

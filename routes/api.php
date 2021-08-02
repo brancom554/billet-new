@@ -24,6 +24,8 @@ use App\Http\Controllers\API\EventTicketsApiController;
 use App\Http\Controllers\API\EventViewApiController;
 use App\Http\Controllers\API\EventViewEmbeddedApiController;
 use App\Http\Controllers\API\EventWidgetsApiController;
+use App\Http\Controllers\API\RemindersApiController;
+
 
 
 
@@ -97,20 +99,20 @@ Route::group(['middleware' =>  'api', 'prefix' => 'auth'], function ($router) {
     /*
     * Forgot password
     */
-    Route::get('login/forgot-password',
-    [RemindersController::class, 'getRemind'])->name('forgotPassword');
+    // Route::get('login/forgot-password',
+    // [RemindersApiController::class, 'getRemind'])->name('forgotPassword');
 
-    Route::post('login/forgot-password',
-    [RemindersController::class, 'postRemind'])->name('postForgotPassword');
+    // Route::post('login/forgot-password',
+    // [RemindersApiController::class, 'postRemind'])->name('postForgotPassword');
 
     /*
     * Reset Password
     */
-    Route::get('login/reset-password/{token}',
-    [RemindersController::class, 'getReset'])->name('password.reset');
+    // Route::get('login/reset-password/{token}',
+    // [RemindersApiController::class, 'getReset'])->name('password.reset');
 
-    Route::post('login/reset-password',
-    [RemindersController::class, 'postReset'])->name('postResetPassword');
+    // Route::post('login/reset-password',
+    // [RemindersApiController::class, 'postReset'])->name('postResetPassword');
 
      /*
     * Registration / Account creation
@@ -169,6 +171,63 @@ Route::group(['middleware' => ['jwt.verify']], function() {
                 [OrganiserViewApiController::class, 'showOrganiserHome']
             )->name('showOrganiserHome');
 
+        });
+
+        Route::group(['prefix' => 'e'], function () {
+
+            /*
+             * Embedded events
+             */
+            // Route::get('/{event_id}/embed',
+            //     [EventViewEmbeddedController::class, 'showEmbeddedEvent']
+            // )->name('showEmbeddedEventPage');
+    
+            // Route::get('/{event_id}/calendar.ics',
+            //     [EventViewController::class, 'showCalendarIcs']
+            // )->name('downloadCalendarIcs');
+    
+            // Route::get('/{event_id}/{event_slug?}',
+            //     [EventViewController::class, 'showEventHome']
+            // )->name('showEventPage');
+    
+            // Route::post('/{event_id}/contact_organiser',
+            //     [EventViewController::class, 'postContactOrganiser']
+            // )->name('postContactOrganiser');
+    
+            // Route::post('/{event_id}/show_hidden',
+            //     [EventViewController::class, 'postShowHiddenTickets']
+            // )->name('postShowHiddenTickets');
+    
+            /*
+             * Used for previewing designs in the backend. Doesn't log page views etc.
+             */
+            // Route::get('/{event_id}/preview',
+            //     [EventViewController::class, 'showEventHomePreview']
+            // )->name('showEventPagePreview');
+    
+            Route::post('{event_id}/checkout/',
+                [EventCheckoutApiController::class, 'postValidateTickets']
+            )->name('postValidateTickets');
+    
+            Route::post('{event_id}/checkout/validate',
+                [EventCheckoutApiController::class, 'postValidateOrder']
+            )->name('postValidateOrder');
+    
+            Route::get('{event_id}/checkout/payment',
+                [EventCheckoutApiController::class, 'showEventPayment']
+            )->name('showEventPayment');
+    
+            Route::get('{event_id}/checkout/create',
+                [EventCheckoutApiController::class, 'showEventCheckout']
+            )->name('showEventCheckout');
+    
+            Route::get('{event_id}/checkout/success',
+                [EventCheckoutApiController::class, 'showEventCheckoutPaymentReturn']
+            )->name('showEventCheckoutPaymentReturn');
+    
+            Route::post('{event_id}/checkout/create',
+                [EventCheckoutApiController::class, 'postCreateOrder']
+            )->name('postCreateOrder');
         });
 
         /*
@@ -283,7 +342,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
                 [EventTicketsApiController::class, 'postPauseTicket']
             )->name('postPauseTicket');
             
-// must be test
+            // must be test
             Route::post('{event_id}/tickets/order',
                 [EventTicketsApiController::class, 'postUpdateTicketsOrder']
             )->name('postUpdateTicketsOrder');
@@ -350,7 +409,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
             )->name('showAttendeeTicket');
 
             Route::get('{event_id}/attendees/export/{export_as?}',
-                [EventAttendeesController::class, 'showExportAttendees']
+                [EventAttendeesApiController::class, 'showExportAttendees']
             )->name('showExportAttendees');
 
             Route::get('{event_id}/attendees/{attendee_id}/edit',
@@ -562,13 +621,16 @@ Route::group(['middleware' => ['jwt.verify']], function() {
             // )->name('confirmCheckInOrderTickets');
 
 
+            
+
+
             /*
              * -------
              * Promote
              * -------
              */
             Route::get('{event_id}/promote',
-                [EventPromoteController::class, 'showPromote']
+                [EventPromoteApiController::class, 'showPromote']
             )->name('showEventPromote');
         });
 
@@ -577,8 +639,8 @@ Route::group(['middleware' => ['jwt.verify']], function() {
      * Installer
      * -------------------------
      */
-    Route::get('install',[InstallerController::class, 'showInstaller'])->name('showInstaller');
-    Route::post('install',[InstallerController::class, 'postInstaller'])->name('postInstaller');
+    // Route::get('install',[InstallerController::class, 'showInstaller'])->name('showInstaller');
+    // Route::post('install',[InstallerController::class, 'postInstaller'])->name('postInstaller');
 
 
 

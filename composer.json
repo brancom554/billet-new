@@ -19,9 +19,10 @@
         "dompdf/dompdf": "^0.8",
         "fideloper/proxy": "^4.2",
         "graham-campbell/markdown": "11.1.0",
-        "guzzlehttp/guzzle": "^6.4",
+        "guzzlehttp/guzzle": "7.0.1",
         "guzzlehttp/psr7": "^1.6",
         "intervention/image": "^2.5",
+        "kkiapay/kkiapay-php": "dev-master",
         "laracasts/utilities": "^3.0",
         "laravel/framework": "^6.5",
         "laravel/socialite": "^4.3",
@@ -33,7 +34,7 @@
         "mcamara/laravel-localization": "^1.4",
         "mews/purifier": "^3.1",
         "milon/barcode": "^6.0",
-        "nitmedia/wkhtml2pdf": "dev-master",
+        "nitmedia/wkhtml2pdf": "^2.1",
         "omnipay/common": "^3.0",
         "omnipay/dummy": "^3.0",
         "omnipay/paypal": "^3.0",
@@ -116,4 +117,5 @@
         }
     },
     "minimum-stability": "stable"
+    
 }
