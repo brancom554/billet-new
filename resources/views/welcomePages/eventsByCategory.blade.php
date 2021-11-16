@@ -6,11 +6,11 @@
     <div class="container container-1310">
         <div class="row my-15">
 
-            @foreach ($events as $event)
+            @forelse ($events as $event)
             <div class="col-md-6">
                 <div class="venue-item">
                     <div class="venue-thumb">
-                        <a href="#"><img {{asset($event->image() ? $event->image()[0]['image_path'] : '')}} alt="venue"></a>
+                        <a href="#"><img src="{{asset($event->image() ? $event->image()[0]['image_path'] : '')}}" alt="venue"></a>
                     </div>
                     <div class="venue-content">
                         <a href="#"><h6>{{$event->title}}</h6></a>
@@ -35,10 +35,12 @@
                     </div>
                 </div>
             </div>
-            @endforeach
+            @empty
+            <h4> Pas d'événements disponible pour cette catégorie</h4>
+            @endforelse
 
         </div>
-        <div class="pagination-area  d-flex flex-wrap justify-content-center">
+        {{-- <div class="pagination-area  d-flex flex-wrap justify-content-center">
               <ul class="pagination  d-flex flex-wrap m-0">
                 <li class="prev">
                   <a href="#"> <i class="fas fa-angle-double-left"></i> previous</a>
@@ -52,7 +54,11 @@
                   <a href="#">next <i class="fas fa-angle-double-right"></i> </a>
                 </li>
               </ul>
-        </div>
+        </div> --}}
+    </div>
+
+    <div class="d-flex justify-content-center">
+        {!! $events->links() !!}
     </div>
 </section>
 <!-- event venues section ending here  -->

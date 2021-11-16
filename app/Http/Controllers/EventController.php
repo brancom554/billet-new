@@ -50,7 +50,8 @@ class EventController extends MyBaseController
         }
 
         $event->title = $request->get('title');
-        $event->category = $request->get('category');
+        $event->is_free = $request->get('is_free');
+        // $event->is_notified = 0;
         $event->description = prepare_markdown($request->get('description'));
         $event->start_date = $request->get('start_date');
 

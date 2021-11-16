@@ -14,7 +14,8 @@
 
 
         <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge" /> -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0" />
         <link rel="canonical" href="{{$event->event_url}}" />
 
@@ -28,6 +29,7 @@
         @endif
         <meta property="og:description" content="{{{Str::words(md_to_str($event->description), 20)}}}" />
         <meta property="og:site_name" content="Attendize.com" />
+        <script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
         <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
           <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>

@@ -65,15 +65,14 @@
         </div>
         <div class="col-md-8 col-md-pull-4">
             <div class="row">
-
                 @if($order_requires_payment)
-                @include('Public.ViewEvent.Partials.OfflinePayments')
+                @include('Public.ViewEvent.Partials.OfflinePayments', ['order_total' => $order_total])
                 @endif
                 {{-- A revoir pour decommenter --}}
                 
-                {{-- @if($order_requires_payment && View::exists($payment_gateway['checkout_blade_template']))
+                @if($order_requires_payment && View::exists($payment_gateway['checkout_blade_template']))
                 @include($payment_gateway['checkout_blade_template'])
-                @endif --}}
+                @endif
                 @if(!$order_requires_payment)
                 @include('Public.ViewEvent.Partials.PaymentFree')
                 @endif

@@ -14,18 +14,7 @@ class AddCategoryToEvents extends Migration
     public function up()
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->enum('category', [
-
-                'Clubs & soirées',
-                'Concerts & spectacles',
-                'Festivals',
-                'Loisirs & lieux culturels',
-                'Salons grand public',
-                'Salons professionnels',
-                'Conférences',
-                'Lotos en ligne',
-                
-            ])->default(NULL);
+            $table->string('category')->default(NULL);
         });
     }
 
@@ -37,18 +26,7 @@ class AddCategoryToEvents extends Migration
     public function down()
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->enum('category', [
-
-                'Clubs & soirées',
-                'Concerts & spectacles',
-                'Festivals',
-                'Loisirs & lieux culturels',
-                'Salons grand public',
-                'Salons professionnels',
-                'Conférences',
-                'Lotos en ligne',
-                
-            ])->default('NULL');
+            $table->string('category')->default('NULL');
         });
     }
 }

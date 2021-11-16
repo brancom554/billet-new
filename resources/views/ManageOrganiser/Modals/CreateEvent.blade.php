@@ -32,6 +32,13 @@
                            
                         </div>
 
+                        <div class="form-group">
+                            {!! Form::Label('is_free', 'Gratuit', array('class'=>'control-label required')) !!}
+                            {!! Form::select('is_free', array('0' => 'Non',
+                             '1' => 'Oui'), null, ['class' => 'form-control']) !!}
+                           
+                        </div>
+
                         <div class="form-group custom-theme">
                             {!! Form::label('description', trans("Event.event_description"), array('class'=>'control-label required')) !!}
                             {!!  Form::textarea('description', old('description'),

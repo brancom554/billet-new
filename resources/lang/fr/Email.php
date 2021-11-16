@@ -5,7 +5,7 @@
 
 return array (
   //==================================== Translations ====================================//
-  'attendize_register' => 'Merci de votre inscription à Attendize',
+  'attendize_register' => 'Merci de votre inscription à UP DATE',
   'invite_user' => ':name vous a ajouté à un compte :app',
   'message_regarding_event' => 'Message au sujet de : :event',
   'organiser_copy' => '[Copie Organisateur]',

@@ -16,6 +16,9 @@ use URL;
 class Event extends MyBaseModel
 {
     use SoftDeletes;
+    protected $fillable = [
+        'is_favoris', 'is_free', 'is_notified'   
+    ];
 
     protected $dates = ['start_date', 'end_date', 'on_sale_date'];
     /**
@@ -82,6 +85,11 @@ class Event extends MyBaseModel
         return $this->hasMany(EventImage::class);
     }
 
+    public function getOneImagePerEvent()
+    {
+        return $this->hasOne(EventImage::class);
+    }
+
     public function image()
     {
         return $this->hasMany(EventImage::class)->select('image_path')->get()->toArray();
@@ -104,7 +112,7 @@ class Event extends MyBaseModel
      */
     public function tickets()
     {
-        return $this->hasMany(Ticket::class);
+        return $this->hasMany(Ticket::class, 'event_id');
     }
 
     public function ticket()

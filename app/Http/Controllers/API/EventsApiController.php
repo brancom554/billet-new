@@ -7,6 +7,8 @@ use Auth;
 use Image;
 use Validator;
 use App\Models\Event;
+use App\Models\Favori;
+use App\Models\EventsCategories;
 use App\Models\Organiser;
 use App\Models\EventImage;
 use Illuminate\Http\Request;
@@ -24,14 +26,13 @@ class EventsApiController extends ApiBaseController
     public function showCreateEvent(Request $request)
     {
         $data = [
-            'modal_id'     => $request->get('modal_id'),
             'organisers'   => Organiser::scope()->pluck('name', 'id'),
             'organiser_id' => $request->get('organiser_id') ? $request->get('organiser_id') : false,
             'event' => Event::scope()->get()
         ];
 
         return response()->json([
-            'success'   =>  true,
+            'status'   =>  true,
             'message' => 'Request succesfully',
             'data' => $data
         ], 200);
@@ -43,27 +44,226 @@ class EventsApiController extends ApiBaseController
      * @param Request $request
      * @return \Illuminate\View\View
      */
+
+    public function Events()
+    {
+        $data =  Event::with(['getOneImagePerEvent' => function ($query) {
+                $query->select('image_path', 'event_id');
+              }, 'organiser', 'tickets' => function ($query) {
+                $query->select('id', 'price', 'event_id');
+              }])->where('start_date', '>=', \Carbon\Carbon::now()->format('Y-m-d H:i:s'))->where('is_live', '=', 1)->orderBy('created_at', 'DESC');
+
+        return $data;
+    }
+
     public function getAllEvents(Request $request)
     {
         $data = [
-            'event' => Event::with('organiser')->paginate(25)
+            'events' => $this->Events()->paginate(15)
         ];
 
         return response()->json([
-            'success'   =>  true,
+            'status'   =>  true,
             'message' => 'All events retrieved successfully',
             'data' => $data
         ], 200);
     }
 
+    public function getAllEventsCategories(Request $request)
+    {
+        $data = EventsCategories::get('name');
+
+        return response()->json([
+            'status'   =>  true,
+            'message' => 'All eventsCatégories retrieved successfully',
+            'data' => $data
+        ], 200);
+    }
+
+    public function getCategoriesWithEvents(Request $request)
+    {
+
+        $data = $this->Events()->where('category', '=', $request->name)->get();
+
+        return response()->json([
+            'status'   =>  true,
+            'message' => 'All data retrieved successfully',
+            'data' => $data
+        ], 200);
+    }
+
+    public function isFavoris(Request $request)
+    {
+
+        if ($request->event_id) {
+
+            if($request->favori == 1) {
+
+                $favoris = Favori::updateOrCreate([
+                    'event_id' => $request->event_id,
+                    'user_id' => auth('api')->user()->id
+                ]);
+
+
+            }
+
+            if($request->favori == 0) {
+
+                $favoris = Favori::where('event_id', '=', $request->event_id)->where('user_id', '=', auth('api')->user()->id)->delete();
+                
+            }
+
+            return response()->json([
+                'status'   =>  true,
+                'message' => 'All data retrieved successfully',
+                'data' => $favoris
+            ], 200);
+                
+        }
+
+        return response()->json([
+            'status'   =>  false,
+            'message' => 'Pas de valeur envoyer',
+        ], 404);
+
+    }
+
+    public function getFavoris()
+    {
+        $favoris = Favori::with(['events' => function ($query) {
+            $query->with(['getOneImagePerEvent' => function ($query) {
+                $query->select('image_path', 'event_id');
+              },'organiser', 'tickets' => function ($query) {
+                $query->select('id', 'price', 'event_id');
+              }]);
+          }])->where('user_id', '=', auth('api')->user()->id)->get();
+
+        return response()->json([
+            'status'   =>  true,
+            'message' => 'All data retrieved successfully',
+            'data' => $favoris
+        ], 200);
+        
+    }
+
+    public function getNotification()
+    {
+        $notif = $this->Events()->where('is_notified', '=', 0)->get();
+
+        return response()->json([
+            'status'   =>  true,
+            'message' => 'All data retrieved successfully',
+            'data' => $notif
+        ], 200);
+        
+    }
+
+    public function postNotification(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'querys' => 'required',
+        ]);
+
+         
+        if ($validator->fails()) {
+
+            return response()->json([
+                'status'   =>  false,
+                'message' => 'veuillez revoir la valeur envoyer au serveur',
+    
+            ], 422);
+
+        }
+
+        try {
+
+            $querys = array_map('intval', json_decode($request->querys));
+
+            foreach( $querys as $query) {
+
+                $event = $this->Events()->where('is_notified', '=', 0)->findOrFail($query);
+
+                if ($event) {
+                
+                    $event->update([
+                        'is_notified' => 1,
+                    ]);
+    
+                }else{
+    
+                    return response()->json([
+                        'status'   =>  false,
+                        'message' => 'l\'event demander n\'existe peut etre pas',
+            
+                    ], 404);
+
+                    break;
+                }
+
+            }
+
+          
+          } catch (\Exception $e) {
+          
+              return $e->getMessage();
+          }
+
+    
+        return response()->json([
+            'status'   =>  true,
+            'message' => 'Effectuée avec success',
+
+        ], 200);
+        
+    }
+
+    public function globalSearch( Request $request)
+    {
+        $request->validate([
+            "query" => 'required|min:3',
+        ]);
+
+        $query = $request->input('query');
+
+        if($query) {
+
+            $data = $this->Events()->where(function($q) use ($query){
+
+                $q->where('title', 'LIKE', '%'.$query.'%');
+                $q->orWhere('venue_name', 'LIKE', '%'.$query.'%');
+                $q->orWhere('category', 'LIKE', '%'.$query.'%');
+                $q->orWhere('description', 'LIKE', '%'.$query.'%');
+
+            })->get();
+                   
+    
+            return response()->json([
+                'status'   =>  true,
+                'message' => 'All data retrieved successfully',
+                'data' => $data
+            ], 200);
+
+        }
+
+        return response()->json([
+            'status'   =>  false,
+            'message' => 'Veuillez renseignez un query tout en respectant la taille de 03 caractère',
+        ], 404);
+        
+        
+    }
+
+    
+
     public function getEventDetails(Request $request, $event_id)
     {
         $data = [
-            'event' => Event::with('organiser')->findOrFail($event_id)
+            'event' => $this->Events()->findOrFail($event_id)
         ];
 
         return response()->json([
-            'success'   =>  true,
+            'status'   =>  true,
             'message' => 'Events details retrieved successfully',
             'data' => $data
         ], 200);

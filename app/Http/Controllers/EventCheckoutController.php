@@ -31,6 +31,8 @@ use Omnipay;
 use PDF;
 use PhpSpec\Exception\Exception;
 use Validator;
+use \FedaPay\FedaPay;
+use \FedaPay\Transaction;
 
 class EventCheckoutController extends Controller
 {
@@ -62,11 +64,12 @@ class EventCheckoutController extends Controller
      */
     public function postValidateTickets(Request $request, $event_id)
     {
+        
         /*
          * Order expires after X min
          */
         $order_expires_time = Carbon::now()->addMinutes(config('attendize.checkout_timeout_after'));
-
+        
         $event = Event::findOrFail($event_id);
 
         if (!$request->has('tickets')) {
@@ -218,7 +221,7 @@ class EventCheckoutController extends Controller
             'account_payment_gateway' => $activeAccountPaymentGateway,
             'payment_gateway'         => $paymentGateway
         ]);
-
+        
         /*
          * If we're this far assume everything is OK and redirect them
          * to the the checkout page.
@@ -249,7 +252,7 @@ class EventCheckoutController extends Controller
     public function showEventCheckout(Request $request, $event_id)
     {
         $order_session = session()->get('ticket_order_' . $event_id);
-
+        // dd($order_session);
         if (!$order_session || $order_session['expires'] < Carbon::now()) {
             $route_name = $this->is_embedded ? 'showEmbeddedEventPage' : 'showEventPage';
             return redirect()->route($route_name, ['event_id' => $event_id]);
@@ -261,6 +264,7 @@ class EventCheckoutController extends Controller
 
         $orderService = new OrderService($order_session['order_total'], $order_session['total_booking_fee'], $event);
         $orderService->calculateFinalCosts();
+        // dd($orderService->calculateFinalCosts());
 
         $data = $order_session + [
                 'event'           => $event,
@@ -330,6 +334,7 @@ class EventCheckoutController extends Controller
             $order->messages = $order->messages + $businessMessages;
         }
 
+
         if (!$order->validate($request->all())) {
             return response()->json([
                 'status'   => 'error',
@@ -377,6 +382,36 @@ class EventCheckoutController extends Controller
         return view('Public.ViewEvent.EventPagePayment', $viewData);
     }
 
+
+    public function kkiapayPayment(Request $request, $event_id) 
+    {
+
+        if($request->field === "test" && request(['transaction-id'])){
+
+            $credentials = request(['transaction-id']);
+            $validator = Validator::make($credentials, [
+                'transaction-id' => 'required',
+
+            ]);
+
+
+            if ($validator->fails()) {
+                    return response()->json($validator->errors(), 422);
+                }
+
+                return $this->postCreateOrder($request, $event_id);
+        }
+
+        
+    }
+
+    public function webViewPagePayment(Request $request)
+    {
+        $order_total = $request["order_total"];
+        $event_id = $request["event_id"];
+        return view('frontMobilePaymentPage', compact(["order_total", "event_id"]));
+    }
+
     /**
      * Create the order and start the payment for the order via Omnipay
      *
@@ -396,9 +431,8 @@ class EventCheckoutController extends Controller
         session()->push('ticket_order_' . $event_id . '.request_data', $request_data);
 
         $ticket_order = session()->get('ticket_order_' . $event_id);
-        $event = Event::findOrFail($event_id);
 
-        // $order_requires_payment = 1;
+        $event = Event::findOrFail($event_id);
         
         $order_requires_payment = $ticket_order['order_requires_payment'];
 
@@ -409,81 +443,123 @@ class EventCheckoutController extends Controller
         if (!$order_requires_payment) {
             return $this->completeOrder($event_id);
         }
+
+        // $kkiapay = new \Kkiapay\Kkiapay('24d1d480da4211ebb78cf3a40dbc99e1',
+        // 'tpk_24d1fb91da4211ebb78cf3a40dbc99e1', 
+        // 'tsk_24d222a0da4211ebb78cf3a40dbc99e1', 
+        // $sandbox = true);
+
+        FedaPay::setApiKey("sk_sandbox_E1tVXD6Kgt_CCzdmdMAYMeDV");
+        FedaPay::setEnvironment('sandbox');
+
+        $fedapay = Transaction::retrieve($request['transaction-id']);
+
+        if ($fedapay["status"] === "approved" && $fedapay["amount"] === (int)$ticket_order['order_total']) {
+
+        // dd(date('d-m-Y H:i:s', strtotime($fedapay["approved_at"])));
+
+        session()->put('approved_date'. $event_id, strtotime($fedapay["approved_at"]));
+
+        // dd(session()->get('approved_date'. $event_id));
+
+
+
+            
         return $this->completeOrder($event_id);
 
-        try {
+        // try {
 
-            $order_service = new OrderService($ticket_order['order_total'], $ticket_order['total_booking_fee'], $event);
-            $order_service->calculateFinalCosts();
+        //     $order_service = new OrderService($ticket_order['order_total'], $ticket_order['total_booking_fee'], $event);
+        //     $order_service->calculateFinalCosts();
 
-            $payment_gateway_config = $ticket_order['account_payment_gateway']->config + [
-                                                    'testMode' => config('attendize.enable_test_payments')];
+        //     $payment_gateway_config = $ticket_order['account_payment_gateway']->config + [
+        //                                             'testMode' => config('attendize.enable_test_payments')];
 
-            $payment_gateway_factory = new PaymentGatewayFactory();
-            $gateway = $payment_gateway_factory->create($ticket_order['payment_gateway']->name, $payment_gateway_config);
-            //certain payment gateways require an extra parameter here and there so this method takes care of that
-            //and sets certain options for the gateway that can be used when the transaction is started
-            $gateway->extractRequestParameters($request);
+        //     $payment_gateway_factory = new PaymentGatewayFactory();
+        //     $gateway = $payment_gateway_factory->create($ticket_order['payment_gateway']->name, $payment_gateway_config);
+        //     //certain payment gateways require an extra parameter here and there so this method takes care of that
+        //     //and sets certain options for the gateway that can be used when the transaction is started
+        //     $gateway->extractRequestParameters($request);
+            
+        //     //generic data that is needed for most orders
+        //     $order_total = $order_service->getGrandTotal();
+        //     $order_email = $ticket_order['request_data'][0]['order_email'];
 
-            //generic data that is needed for most orders
-            $order_total = $order_service->getGrandTotal();
-            $order_email = $ticket_order['request_data'][0]['order_email'];
+        //     $response = $gateway->startTransaction($order_total, $order_email, $event);
 
-            $response = $gateway->startTransaction($order_total, $order_email, $event);
+        //     if ($response->isSuccessful()) {
 
-            if ($response->isSuccessful()) {
+        //         session()->push('ticket_order_' . $event_id . '.transaction_id',
+        //             $response->getTransactionReference());
 
-                session()->push('ticket_order_' . $event_id . '.transaction_id',
-                    $response->getTransactionReference());
+        //         $additionalData = ($gateway->storeAdditionalData()) ? $gateway->getAdditionalData($response) : array();
 
-                $additionalData = ($gateway->storeAdditionalData()) ? $gateway->getAdditionalData($response) : array();
+        //         session()->push('ticket_order_' . $event_id . '.transaction_data',
+        //                         $gateway->getTransactionData() + $additionalData);
 
-                session()->push('ticket_order_' . $event_id . '.transaction_data',
-                                $gateway->getTransactionData() + $additionalData);
+        //         $gateway->completeTransaction($additionalData);
 
-                $gateway->completeTransaction($additionalData);
+        //         return $this->completeOrder($event_id);
 
-                return $this->completeOrder($event_id);
+        //     } elseif ($response->isRedirect()) {
 
-            } elseif ($response->isRedirect()) {
+        //         $additionalData = ($gateway->storeAdditionalData()) ? $gateway->getAdditionalData($response) : array();
 
-                $additionalData = ($gateway->storeAdditionalData()) ? $gateway->getAdditionalData($response) : array();
+        //         session()->push('ticket_order_' . $event_id . '.transaction_data',
+        //                         $gateway->getTransactionData() + $additionalData);
 
-                session()->push('ticket_order_' . $event_id . '.transaction_data',
-                                $gateway->getTransactionData() + $additionalData);
+        //         Log::info("Redirect url: " . $response->getRedirectUrl());
 
-                Log::info("Redirect url: " . $response->getRedirectUrl());
+        //         $return = [
+        //             'status'       => 'success',
+        //             'redirectUrl'  => $response->getRedirectUrl(),
+        //             'message'      => 'Redirecting to ' . $ticket_order['payment_gateway']->provider_name
+        //         ];
 
-                $return = [
-                    'status'       => 'success',
-                    'redirectUrl'  => $response->getRedirectUrl(),
-                    'message'      => 'Redirecting to ' . $ticket_order['payment_gateway']->provider_name
-                ];
+        //         // GET method requests should not have redirectData on the JSON return string
+        //         if($response->getRedirectMethod() == 'POST') {
+        //             $return['redirectData'] = $response->getRedirectData();
+        //         }
 
-                // GET method requests should not have redirectData on the JSON return string
-                if($response->getRedirectMethod() == 'POST') {
-                    $return['redirectData'] = $response->getRedirectData();
-                }
+        //         return response()->json($return);
 
-                return response()->json($return);
+        //     } else {
+        //         // display error to customer
+        //         return response()->json([
+        //             'status'  => 'error',
+        //             'message' => $response->getMessage(),
+        //         ]);
+        //     }
+        // } catch (\Exeption $e) {
+        //     Log::error($e);
+        //     $error = 'Sorry, there was an error processing your payment. Please try again.';
+        // }
 
-            } else {
-                // display error to customer
-                return response()->json([
-                    'status'  => 'error',
-                    'message' => $response->getMessage(),
-                ]);
-            }
-        } catch (\Exeption $e) {
-            Log::error($e);
-            $error = 'Sorry, there was an error processing your payment. Please try again.';
-        }
+        // if ($error) {
+        //     return response()->json([
+        //         'status'  => 'error',
+        //         'message' => $error,
+        //     ]);
+        // }
 
-        if ($error) {
+        }else if($fedapay["status"] === "declined"){
+
+             return response()->json([
+             'status' => 'false',
+             'message' => 'versement non effectué, veuillez contactez l\'assistance pour plus d\'information',
+         ],404);
+
+        }else if($fedapay["status"] === "canceled"){
             return response()->json([
-                'status'  => 'error',
-                'message' => $error,
-            ]);
+                'status' => 'false',
+                'message' => 'versement a été annuler',
+            ],400);
+            
+        }else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Nous n\'avons pas de réponse pour votre requete',
+            ],404);
         }
 
     }
@@ -549,6 +625,23 @@ class EventCheckoutController extends Controller
             /*
              * Create the order
              */
+
+            // dd(request('transaction_id'));
+
+            if (request('transaction-id')) {
+
+                $checkTransactionId = $order->where('transaction_id', '=', request('transaction-id'))->first();
+
+                    if ($checkTransactionId === null) {
+                        $order->transaction_id = request('transaction-id');
+                    } else {
+                        return response()->json([
+                              'status' => 'error',
+                              'message' => 'Votre transaction-id existe déja',
+                        ],404);
+                    }
+            }
+           
             if (isset($ticket_order['transaction_id'])) {
                 $order->transaction_id = $ticket_order['transaction_id'][0];
             }
@@ -571,6 +664,7 @@ class EventCheckoutController extends Controller
             $order->account_id = $event->account->id;
             $order->event_id = $ticket_order['event_id'];
             $order->is_payment_received = isset($request_data['pay_offline']) ? 0 : 1;
+            $order->order_date = session()->get('approved_date'. $event_id);
 
             // Business details is selected, we need to save the business details
             if (isset($request_data['is_business']) && (bool)$request_data['is_business']) {
@@ -738,20 +832,27 @@ class EventCheckoutController extends Controller
             Log::debug('Queueing Attendee Ticket Job Done');
         }
 
-        if ($return_json) {
-            return response()->json([
-                'status'      => 'success',
-                'redirectUrl' => route('showOrderDetails', [
-                    'is_embedded'     => $this->is_embedded,
-                    'order_reference' => $order->order_reference,
-                ]),
-            ]);
-        }
+        // if ($return_json) {
+            // return response()->json([
+            //     'status'      => 'success',
+            //     'redirectUrl' => route('showOrderDetails', [
+            //         'is_embedded'     => $this->is_embedded,
+            //         'order_reference' => $order->order_reference,
+            //     ]),
+            // ]);
 
-        return response()->redirectToRoute('showOrderDetails', [
+            // return view('showOrderDetails', ['is_embedded'     => $this->is_embedded, 'order_reference' => $order->order_reference,]);
+        // }
+
+        return redirect()->route('showOrderDetails', [
             'is_embedded'     => $this->is_embedded,
             'order_reference' => $order->order_reference,
         ]);
+
+        // return response()->redirectToRoute('showOrderDetails', [
+        //     'is_embedded'     => $this->is_embedded,
+        //     'order_reference' => $order->order_reference,
+        // ]);
 
 
     }
@@ -789,6 +890,67 @@ class EventCheckoutController extends Controller
         return view('Public.ViewEvent.EventPageViewOrder', $data);
     }
 
+    public function pdfTickets(Request $request, $order_reference)
+    {
+        $order = Order::where('order_reference', '=', $order_reference)->first();
+
+        if (!$order) {
+            abort(404);
+        }
+        $images = [];
+        $imgs = $order->event->images;
+        foreach ($imgs as $img) {
+            $images[] = base64_encode(file_get_contents(public_path($img->image_path)));
+        }
+
+        $data = [
+            'order'     => $order,
+            'event'     => $order->event,
+            'tickets'   => $order->event->tickets,
+            'attendees' => $order->attendees,
+            'css'       => file_get_contents(public_path('assets/stylesheet/ticket.css')),
+            'image'     => base64_encode(file_get_contents(public_path($order->event->organiser->full_logo_path))),
+            'images'    => $images,
+        ];
+       
+
+       
+        $pdf = PDF::loadView('Public.ViewEvent.Partials.PDFTicket', $data);
+        return $pdf->stream('Tickets'.$order_reference.'.pdf');
+
+    }
+
+
+    /**
+     * Show the order invoice page
+     *
+     * @param Request $request
+     * @param $order_reference
+     * @return \Illuminate\View\View
+     */
+    public function showOrderInvoice(Request $request, $order_reference)
+    {
+        $order = Order::where('order_reference', '=', $order_reference)->first();
+
+        if (!$order) {
+            abort(404);
+        }
+
+        $orderService = new OrderService($order->amount, $order->organiser_booking_fee, $order->event);
+        $orderService->calculateFinalCosts();
+
+        $data = [
+            'order'        => $order,
+            'orderService' => $orderService,
+            'event'        => $order->event,
+            'tickets'      => $order->event->tickets,
+            'is_embedded'  => $this->is_embedded,
+        ];
+
+        $pdf = PDF::loadView('Public.ViewEvent.InvoicePage', $data);
+        return $pdf->stream('Invoice'.$order_reference.'.pdf');
+    }
+
     /**
      * Shows the tickets for an order - either HTML or PDF
      *
@@ -821,7 +983,10 @@ class EventCheckoutController extends Controller
        
 
         if ($request->get('download') == '1') {
-            return PDF::html('Public.ViewEvent.Partials.PDFTicket', $data, 'Tickets');
+            // return PDF::loadView('Public.ViewEvent.Partials.PDFTicket', $data, 'Tickets');
+        $pdf = PDF::loadView('Public.ViewEvent.Partials.PDFTicket', $data);
+        return $pdf->stream('Tickets'.$order_reference.'.pdf');
+
         }
         return view('Public.ViewEvent.Partials.PDFTicket', $data);
     }

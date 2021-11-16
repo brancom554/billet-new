@@ -333,10 +333,10 @@ padding-right: 50%;
   color: #fd3d6b;
 }
 .style-2 .header-bottom .primary-menu .menu-area .main-menu li.active > ul li.active:hover a {
-  color: #383a50;
+  color: #000000;
 }
 .style-2 .header-bottom .primary-menu .menu-area .main-menu li a {
-  /* color: #383a50; */
+  color: #000000;
 }
 .style-2 .header-bottom .primary-menu .menu-area .main-menu li.head-contact {
   border-left: 1px solid #ededed;
@@ -367,7 +367,7 @@ padding-right: 50%;
   color: #383a50;
 }
 .style-3 .header-bottom .primary-menu .menu-area .main-menu li a {
-  /* color: #383a50; */
+  color: #383a50;
 }
 .style-3 .header-bottom .primary-menu .menu-area .main-menu li.reg-head a {
   color: #fff;
@@ -4479,11 +4479,11 @@ padding-right: 50%;
   transition: all 0.3s ease;
 }
 .blog-navy:hover {
-  border-color: #fd3d6b;
+  border-color: #000000;
 }
 
 .blog-btn-prev {
-  border-color: #fd3d6b;
+  border-color: #000000;
 }
 .blog-btn-prev:hover {
   border-color: #ededed;
@@ -11845,6 +11845,8 @@ textarea {
 	position: relative;
 	display: block;
 	margin-bottom: 10px;
+  margin-left: 50px;
+
 }
 
 .feature-block-two .icon img{
@@ -11935,6 +11937,37 @@ textarea {
   border-radius: 20px;
   border: 1px solid black;
 }
+
+.voirPlus{
+  border-radius: 20px;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.organiser_image {
+  width : 40px; 
+  height : 40px;
+  border: none;
+  -moz-border-radius : 50%;
+  -webkit-border-radius : 50%;
+  border-radius : 50%;
+}
+
+.page-item.active .page-link {
+    color: #fff;
+    background-color: #000000 !important;
+    border-color: #fafafa !important;
+}
+
+.page-link{
+  color: #000000;
+}
+
+.pagination {
+  margin-top: 20px;
+}
+
+
 
 
 

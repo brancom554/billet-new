@@ -3,7 +3,7 @@
  return [
 
     'debug' => true,
-    'binpath' => 'lib/',
+    'binpath' => '"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf"',
     'binfile' => 'wkhtmltopdf-amd64',
     'output_mode' => 'I'
 

@@ -108,6 +108,10 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'h' => 
+        array (
+            'h4cc\\WKHTMLToPDF\\' => 17,
+        ),
         'Z' => 
         array (
             'ZipStream\\' => 10,
@@ -221,6 +225,7 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         ),
         'K' => 
         array (
+            'Knp\\Snappy\\' => 11,
             'Kkiapay\\' => 8,
         ),
         'J' => 
@@ -255,6 +260,7 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         array (
             'FontLib\\' => 8,
             'Fideloper\\Proxy\\' => 16,
+            'FedaPay\\' => 8,
             'Faker\\' => 6,
             'Facade\\Ignition\\' => 16,
             'Facade\\IgnitionContracts\\' => 25,
@@ -295,6 +301,7 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         ),
         'B' => 
         array (
+            'Barryvdh\\Snappy\\' => 16,
             'Barryvdh\\LaravelIdeHelper\\' => 26,
             'Barryvdh\\Debugbar\\' => 18,
         ),
@@ -312,6 +319,10 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'h4cc\\WKHTMLToPDF\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/h4cc/wkhtmltopdf-amd64',
         ),
         'ZipStream\\' => 
         array (
@@ -626,6 +637,10 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         array (
             0 => __DIR__ . '/..' . '/darkaonline/l5-swagger/src',
         ),
+        'Knp\\Snappy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy',
+        ),
         'Kkiapay\\' => 
         array (
             0 => __DIR__ . '/..' . '/kkiapay/kkiapay-php/src',
@@ -702,6 +717,10 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         'Fideloper\\Proxy\\' => 
         array (
             0 => __DIR__ . '/..' . '/fideloper/proxy/src',
+        ),
+        'FedaPay\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/fedapay/fedapay-php/lib',
         ),
         'Faker\\' => 
         array (
@@ -814,6 +833,10 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
+        'Barryvdh\\Snappy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src',
         ),
         'Barryvdh\\LaravelIdeHelper\\' => 
         array (
@@ -933,8 +956,13 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         'AddGoogleAnalyticsCodeToOrganiser' => __DIR__ . '/../..' . '/database/migrations/2016_09_16_221455_add_google_analytics_code_to_organiser.php',
         'AddGtmFieldToEvent' => __DIR__ . '/../..' . '/database/migrations/2019_05_14_122256_add_gtm_field_to_event.php',
         'AddGtmFieldToOrganiser' => __DIR__ . '/../..' . '/database/migrations/2019_05_14_122245_add_gtm_field_to_organiser.php',
+        'AddIsAdminToUsers' => __DIR__ . '/../..' . '/database/migrations/2021_11_03_105624_add_is_admin_to_users.php',
         'AddIsConnectedColumnToUsersTable' => __DIR__ . '/../..' . '/database/migrations/2021_06_16_202844_add_is_connected_column_to_users_table.php',
+        'AddIsFavorisToEvents' => __DIR__ . '/../..' . '/database/migrations/2021_11_03_153722_add_is_favoris_to_events.php',
+        'AddIsFeaturedAdsToEvents' => __DIR__ . '/../..' . '/database/migrations/2021_11_09_174516_add_is_featured_ads_to_events.php',
+        'AddIsFreeToEvents' => __DIR__ . '/../..' . '/database/migrations/2021_11_04_093909_add_is_free_to_events.php',
         'AddIsHiddenTicketsTable' => __DIR__ . '/../..' . '/database/migrations/2016_10_22_150532_add_is_hidden_tickets_table.php',
+        'AddIsNotifiedToEvents' => __DIR__ . '/../..' . '/database/migrations/2021_11_05_101211_add_is_notified_to_events.php',
         'AddIsRefundedColumnToAttendees' => __DIR__ . '/../..' . '/database/migrations/2016_06_14_115337_add_is_refunded_column_to_attendees.php',
         'AddOrganiserPageToggle' => __DIR__ . '/../..' . '/database/migrations/2016_03_27_223733_add_organiser_page_toggle.php',
         'AddQuestionAnswersTable' => __DIR__ . '/../..' . '/database/migrations/2016_04_03_221050_add_question_answers_table.php',
@@ -958,7 +986,6 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         'App\\Console\\Commands\\CreateDatabase' => __DIR__ . '/../..' . '/app/Console/Commands/CreateDatabase.php',
         'App\\Console\\Commands\\Install' => __DIR__ . '/../..' . '/app/Console/Commands/Install.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
-        'App\\EventsCategories' => __DIR__ . '/../..' . '/app/Models/EventsCategories.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Exports\\AttendeesExport' => __DIR__ . '/../..' . '/app/Exports/AttendeesExport.php',
         'App\\Exports\\OrdersExport' => __DIR__ . '/../..' . '/app/Exports/OrdersExport.php',
@@ -987,6 +1014,7 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         'App\\Http\\Controllers\\API\\OrganiserDashboardApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/OrganiserDashboardApiController.php',
         'App\\Http\\Controllers\\API\\OrganiserEventsApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/OrganiserEventsApiController.php',
         'App\\Http\\Controllers\\API\\OrganiserViewApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/OrganiserViewApiController.php',
+        'App\\Http\\Controllers\\API\\PaymentHistoryApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PaymentHistoryApiController.php',
         'App\\Http\\Controllers\\API\\RemindersApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/RemindersApiController.php',
         'App\\Http\\Controllers\\API\\UserApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/UserApiController.php',
         'App\\Http\\Controllers\\API\\UserLoginApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/UserLoginApiController.php',
@@ -1073,6 +1101,8 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         'App\\Models\\EventAccessCodes' => __DIR__ . '/../..' . '/app/Models/EventAccessCodes.php',
         'App\\Models\\EventImage' => __DIR__ . '/../..' . '/app/Models/EventImage.php',
         'App\\Models\\EventStats' => __DIR__ . '/../..' . '/app/Models/EventStats.php',
+        'App\\Models\\EventsCategories' => __DIR__ . '/../..' . '/app/Models/EventsCategories.php',
+        'App\\Models\\Favori' => __DIR__ . '/../..' . '/app/Models/Favori.php',
         'App\\Models\\Message' => __DIR__ . '/../..' . '/app/Models/Message.php',
         'App\\Models\\MyBaseModel' => __DIR__ . '/../..' . '/app/Models/MyBaseModel.php',
         'App\\Models\\Order' => __DIR__ . '/../..' . '/app/Models/Order.php',
@@ -1080,6 +1110,7 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         'App\\Models\\OrderStatus' => __DIR__ . '/../..' . '/app/Models/OrderStatus.php',
         'App\\Models\\Organiser' => __DIR__ . '/../..' . '/app/Models/Organiser.php',
         'App\\Models\\PaymentGateway' => __DIR__ . '/../..' . '/app/Models/PaymentGateway.php',
+        'App\\Models\\PaymentHistory' => __DIR__ . '/../..' . '/app/Models/PaymentHistory.php',
         'App\\Models\\Question' => __DIR__ . '/../..' . '/app/Models/Question.php',
         'App\\Models\\QuestionAnswer' => __DIR__ . '/../..' . '/app/Models/QuestionAnswer.php',
         'App\\Models\\QuestionOption' => __DIR__ . '/../..' . '/app/Models/QuestionOption.php',
@@ -1090,6 +1121,7 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         'App\\Models\\Timezone' => __DIR__ . '/../..' . '/app/Models/Timezone.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Notifications\\UserResetPassword' => __DIR__ . '/../..' . '/app/Notifications/UserResetPassword.php',
+        'App\\PaymentHistory' => __DIR__ . '/../..' . '/app/PaymentHistory.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BladeServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BladeServiceProvider.php',
@@ -1975,6 +2007,15 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         'Barryvdh\\Reflection\\DocBlock\\Tag\\VarTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/VarTag.php',
         'Barryvdh\\Reflection\\DocBlock\\Tag\\VersionTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/VersionTag.php',
         'Barryvdh\\Reflection\\DocBlock\\Type\\Collection' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Type/Collection.php',
+        'Barryvdh\\Snappy\\Facades\\SnappyImage' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/Facades/SnappyImage.php',
+        'Barryvdh\\Snappy\\Facades\\SnappyPdf' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/Facades/SnappyPdf.php',
+        'Barryvdh\\Snappy\\IlluminateSnappyImage' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/IlluminateSnappyImage.php',
+        'Barryvdh\\Snappy\\IlluminateSnappyPdf' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/IlluminateSnappyPdf.php',
+        'Barryvdh\\Snappy\\ImageWrapper' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/ImageWrapper.php',
+        'Barryvdh\\Snappy\\LumenServiceProvider' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/LumenServiceProvider.php',
+        'Barryvdh\\Snappy\\PdfFaker' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/PdfFaker.php',
+        'Barryvdh\\Snappy\\PdfWrapper' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/PdfWrapper.php',
+        'Barryvdh\\Snappy\\ServiceProvider' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/ServiceProvider.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonConverterInterface' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonConverterInterface.php',
         'Carbon\\CarbonImmutable' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonImmutable.php',
@@ -2338,6 +2379,7 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         'CreateEventAccessCodesTable' => __DIR__ . '/../..' . '/database/migrations/2019_01_14_124052_create_event_access_codes_table.php',
         'CreateEventsCategoriesTable' => __DIR__ . '/../..' . '/database/migrations/2021_07_02_123949_create_events_categories_table.php',
         'CreateFailedJobsTable' => __DIR__ . '/../..' . '/database/migrations/2014_11_17_011806_create_failed_jobs_table.php',
+        'CreateFavorisTable' => __DIR__ . '/../..' . '/database/migrations/2021_11_03_162318_create_favoris_table.php',
         'CreateGatewaysTable' => __DIR__ . '/../..' . '/database/migrations/2016_03_16_193757_create_gateways_table.php',
         'CreateJobsTable' => __DIR__ . '/../..' . '/database/migrations/2021_07_20_064453_create_jobs_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
@@ -3455,6 +3497,7 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         'Faker\\Provider\\nl_BE\\Payment' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/nl_BE/Payment.php',
         'Faker\\Provider\\nl_BE\\Person' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/nl_BE/Person.php',
         'Faker\\Provider\\nl_BE\\PhoneNumber' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/nl_BE/PhoneNumber.php',
+        'Faker\\Provider\\nl_BE\\Text' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/nl_BE/Text.php',
         'Faker\\Provider\\nl_NL\\Address' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/nl_NL/Address.php',
         'Faker\\Provider\\nl_NL\\Color' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/nl_NL/Color.php',
         'Faker\\Provider\\nl_NL\\Company' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/nl_NL/Company.php',
@@ -3573,6 +3616,39 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         'Faker\\Provider\\zh_TW\\Text' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/zh_TW/Text.php',
         'Faker\\UniqueGenerator' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/UniqueGenerator.php',
         'Faker\\ValidGenerator' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/ValidGenerator.php',
+        'FedaPay\\Account' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Account.php',
+        'FedaPay\\ApiKey' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/ApiKey.php',
+        'FedaPay\\ApiOperations\\All' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/ApiOperations/All.php',
+        'FedaPay\\ApiOperations\\Create' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/ApiOperations/Create.php',
+        'FedaPay\\ApiOperations\\Delete' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/ApiOperations/Delete.php',
+        'FedaPay\\ApiOperations\\Request' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/ApiOperations/Request.php',
+        'FedaPay\\ApiOperations\\Retrieve' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/ApiOperations/Retrieve.php',
+        'FedaPay\\ApiOperations\\Save' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/ApiOperations/Save.php',
+        'FedaPay\\ApiOperations\\Update' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/ApiOperations/Update.php',
+        'FedaPay\\Currency' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Currency.php',
+        'FedaPay\\Customer' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Customer.php',
+        'FedaPay\\Error\\ApiConnection' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Error/ApiConnection.php',
+        'FedaPay\\Error\\Base' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Error/Base.php',
+        'FedaPay\\Error\\InvalidRequest' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Error/InvalidRequest.php',
+        'FedaPay\\Error\\SignatureVerification' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Error/SignatureVerification.php',
+        'FedaPay\\Event' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Event.php',
+        'FedaPay\\FedaPay' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/FedaPay.php',
+        'FedaPay\\FedaPayObject' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/FedaPayObject.php',
+        'FedaPay\\HttpClient\\ClientInterface' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/HttpClient/ClientInterface.php',
+        'FedaPay\\HttpClient\\CurlClient' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/HttpClient/CurlClient.php',
+        'FedaPay\\Invoice' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Invoice.php',
+        'FedaPay\\Log' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Log.php',
+        'FedaPay\\Page' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Page.php',
+        'FedaPay\\Payout' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Payout.php',
+        'FedaPay\\PhoneNumber' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/PhoneNumber.php',
+        'FedaPay\\Requestor' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Requestor.php',
+        'FedaPay\\Resource' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Resource.php',
+        'FedaPay\\Transaction' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Transaction.php',
+        'FedaPay\\Util\\Inflector' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Util/Inflector.php',
+        'FedaPay\\Util\\RandomGenerator' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Util/RandomGenerator.php',
+        'FedaPay\\Util\\Util' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Util/Util.php',
+        'FedaPay\\Webhook' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/Webhook.php',
+        'FedaPay\\WebhookSignature' => __DIR__ . '/..' . '/fedapay/fedapay-php/lib/WebhookSignature.php',
         'Fideloper\\Proxy\\TrustProxies' => __DIR__ . '/..' . '/fideloper/proxy/src/TrustProxies.php',
         'Fideloper\\Proxy\\TrustedProxyServiceProvider' => __DIR__ . '/..' . '/fideloper/proxy/src/TrustedProxyServiceProvider.php',
         'FixMessagesTable' => __DIR__ . '/../..' . '/database/migrations/2016_05_12_143324_fix_messages_table.php',
@@ -5141,6 +5217,11 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         'Kkiapay\\Constants' => __DIR__ . '/..' . '/kkiapay/kkiapay-php/src/Constants.php',
         'Kkiapay\\Kkiapay' => __DIR__ . '/..' . '/kkiapay/kkiapay-php/src/Kkiapay.php',
         'Kkiapay\\STATUS' => __DIR__ . '/..' . '/kkiapay/kkiapay-php/src/STATUS.php',
+        'Knp\\Snappy\\AbstractGenerator' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/AbstractGenerator.php',
+        'Knp\\Snappy\\Exception\\FileAlreadyExistsException' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/Exception/FileAlreadyExistsException.php',
+        'Knp\\Snappy\\GeneratorInterface' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/GeneratorInterface.php',
+        'Knp\\Snappy\\Image' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/Image.php',
+        'Knp\\Snappy\\Pdf' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/Pdf.php',
         'L5Swagger\\Console\\GenerateDocsCommand' => __DIR__ . '/..' . '/darkaonline/l5-swagger/src/Console/GenerateDocsCommand.php',
         'L5Swagger\\Exceptions\\L5SwaggerException' => __DIR__ . '/..' . '/darkaonline/l5-swagger/src/Exceptions/L5SwaggerException.php',
         'L5Swagger\\Generator' => __DIR__ . '/..' . '/darkaonline/l5-swagger/src/Generator.php',
@@ -9727,6 +9808,7 @@ class ComposerStaticInit1a3334aef7fd953003188b02ca13a39d
         'ZipStream\\Option\\Version' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Option/Version.php',
         'ZipStream\\Stream' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/Stream.php',
         'ZipStream\\ZipStream' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/ZipStream.php',
+        'h4cc\\WKHTMLToPDF\\WKHTMLToPDF' => __DIR__ . '/..' . '/h4cc/wkhtmltopdf-amd64/WKHTMLToPDF.php',
         'phpDocumentor\\Reflection\\DocBlock' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlock.php',
         'phpDocumentor\\Reflection\\DocBlockFactory' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactory.php',
         'phpDocumentor\\Reflection\\DocBlockFactoryInterface' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactoryInterface.php',

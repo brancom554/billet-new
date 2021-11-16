@@ -65,9 +65,17 @@ Route::group(
 
     Route::get('/accueil', [WelcomePagesController::class, 'firstPage'])->name('accueil');
 
+    Route::get('/voirPlus', [WelcomePagesController::class, 'seeMore'])->name('seeMore');
+
     Route::get('/category/{name}', [WelcomePagesController::class, 'eventsByCategory'])->name('eventsByCategory');
 
     Route::get('/event/{event_id}/details', [WelcomePagesController::class, 'eventsDetails'])->name('eventsDetails');
+
+    Route::get('/paymentGateway', [WelcomePagesController::class, 'payment']);
+
+    Route::get('/details/{event_id}', [EventCheckoutController::class, 'kkiapayPayment'])->name('kkiapayPayment');
+
+
 
 
 
@@ -209,9 +217,21 @@ Route::group(
         [EventCheckoutController::class, 'showOrderDetails']
     )->name('showOrderDetails');
 
+    Route::get('order/{order_reference}/invoice',
+        [EventCheckoutController::class, 'showOrderInvoice']
+    )->name('showOrderInvoice');
+
     Route::get('order/{order_reference}/tickets',
         [EventCheckoutController::class, 'showOrderTickets']
     )->name('showOrderTickets');
+
+    Route::get('order/{order_reference}/ticketPdf',
+        [EventCheckoutController::class, 'pdfTickets']
+        )->name('pdfTickets');
+    
+    Route::get('paymentView/{order_total}',
+        [EventCheckoutController::class, 'webViewPagePayment']
+        )->name('webViewPagePayment');
 
     /*
      * Backend routes

@@ -49,7 +49,6 @@ class SendOrderNotificationMail extends Mailable
         //     ->view('Emails.OrderNotification');
        
         $subject = trans("Controllers.new_order_received", ["event" => $this->order->event->title, "order" => $this->order->order_reference]);
-        dd($subject);
         return $this->subject($subject)
                     ->view('Emails.OrderNotification');
     }

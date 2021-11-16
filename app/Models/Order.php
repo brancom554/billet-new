@@ -93,7 +93,7 @@ class Order extends MyBaseModel
      */
     public function event()
     {
-        return $this->belongsTo(Event::class);
+        return $this->belongsTo(Event::class, 'event_id');
     }
 
     /**
@@ -179,6 +179,7 @@ class Order extends MyBaseModel
 
         $pdf_file_path = public_path(config('attendize.event_pdf_tickets_path')) . '/' . $this->order_reference;
         $pdf_file = $pdf_file_path . '.pdf';
+
 
         if (file_exists($pdf_file)) {
             return true;

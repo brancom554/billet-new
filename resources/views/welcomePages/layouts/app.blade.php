@@ -10,9 +10,17 @@
          <meta name="keywords" content="événements, tickets">
         <meta name="author" content="dko sarl">
         
+        
+        <link rel="stylesheet" type="text/css" href="{{ asset('welcome/css/all.min.css') }}">
+
+
         <link rel="shortcut icon" type="image/x-icon" href="{{asset('welcome/images/logo.png')}}">
         <link rel="stylesheet" type="text/css" href="{{ asset('welcome/css/animate.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('welcome/css/bootstrap.min.css') }}">
+
+        <!-- <link rel="stylesheet" type="text/css" href="{{ asset('carousel_assets/bootstrap-icons.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('carousel_assets/animate.min.css') }}"> -->
+
         <link rel="stylesheet" type="text/css" href="{{ asset('welcome/css/all.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('welcome/css/lightcase.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('welcome/css/swiper.min.css') }}">
@@ -34,14 +42,20 @@
 </div>
 <!-- /#page -->
 
+
+
 <script defer src="{{asset('welcome/js/jquery.js')}}"></script>
+<!-- 
+<script defer src="{{asset('carousel_assets/bootstrap.bundle.min.js')}}"></script>
+<script defer src="{{asset('carousel_assets/glightbox.min.js')}}"></script> -->
+
     <script defer src="{{asset('welcome/js/snap.svg-min.js')}}"></script>
     <script defer src="{{asset('welcome/js/classie.js')}}"></script>
     <script defer src="{{asset('welcome/js/main3.js')}}"></script>
   	<script defer src="{{asset('welcome/js/bootstrap.min.js')}}"></script>
   	<script defer src="{{asset('welcome/js/fontawesome.min.js')}}"></script>
   	<script defer src="{{asset('welcome/js/jquery.counterup.min.js')}}"></script>
-	<script defer src='{{asset('welcome/js/jquery.easing.js')}}'></script> 
+	<script defer src="{{asset('welcome/js/jquery.easing.js')}}"></script> 
   	<script defer src="{{asset('welcome/js/parallax.min.js')}}"></script>
   	<script defer src="{{asset('welcome/js/swiper.min.js')}}"></script>
   	<script defer src="{{asset('welcome/js/lightcase.js')}}"></script>
@@ -54,6 +68,8 @@
   	<script defer src="{{asset('welcome/js/functions.js')}}"></script>
   	<script defer src="{{asset('welcome/js/wow.min.js')}}"></script>
     <script defer src="{{asset('welcome/js/theia-sticky-sidebar.js')}}"></script>
+  
+
 
 </body>
 </html>

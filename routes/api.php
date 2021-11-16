@@ -25,6 +25,8 @@ use App\Http\Controllers\API\EventViewApiController;
 use App\Http\Controllers\API\EventViewEmbeddedApiController;
 use App\Http\Controllers\API\EventWidgetsApiController;
 use App\Http\Controllers\API\RemindersApiController;
+use App\Http\Controllers\API\PaymentHistoryApiController;
+
 
 
 
@@ -135,9 +137,33 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
     Route::get('/events',
     [EventsApiController::class, 'getAllEvents'])->name('getAllEvents');  
+
+    Route::get('/eventsCategories',
+    [EventsApiController::class, 'getAllEventsCategories'])->name('getAllEventsCategories');  
+
+    Route::get('/categoryWithEvents/{name}',
+    [EventsApiController::class, 'getCategoriesWithEvents'])->name('getCategoriesWithEvents');
+
+    Route::post('/storeFavoris',
+    [EventsApiController::class, 'isFavoris'])->name('isFavoris');
+
+    Route::get('/getFavoris',
+    [EventsApiController::class, 'getFavoris'])->name('getFavoris');
+
+    Route::get('/getNotif',
+    [EventsApiController::class, 'getNotification'])->name('getNotification');
+
+    Route::post('/postNotif',
+    [EventsApiController::class, 'postNotification'])->name('postNotification');
+
+    Route::post('/search',
+    [EventsApiController::class, 'globalSearch'])->name('globalSearch');
     
     Route::get('/eventD/{event_id}',
     [EventsApiController::class, 'getEventDetails'])->name('getEventDetails');
+
+    Route::get('/order_history',
+    [PaymentHistoryApiController::class, 'getHistory'])->name('getHistory');
 
     /*
      * Logout
@@ -178,32 +204,32 @@ Route::group(['middleware' => ['jwt.verify']], function() {
             /*
              * Embedded events
              */
-            // Route::get('/{event_id}/embed',
-            //     [EventViewEmbeddedController::class, 'showEmbeddedEvent']
-            // )->name('showEmbeddedEventPage');
+            Route::get('/{event_id}/embed',
+                [EventViewEmbeddedController::class, 'showEmbeddedEvent']
+            )->name('showEmbeddedEventPage');
     
-            // Route::get('/{event_id}/calendar.ics',
-            //     [EventViewController::class, 'showCalendarIcs']
-            // )->name('downloadCalendarIcs');
+            Route::get('/{event_id}/calendar.ics',
+                [EventViewApiController::class, 'showCalendarIcs']
+            )->name('downloadCalendarIcs');
     
-            // Route::get('/{event_id}/{event_slug?}',
-            //     [EventViewController::class, 'showEventHome']
-            // )->name('showEventPage');
+            Route::get('/{event_id}/{event_slug?}',
+                [EventViewApiController::class, 'showEventHome']
+            )->name('showEventPage');
     
-            // Route::post('/{event_id}/contact_organiser',
-            //     [EventViewController::class, 'postContactOrganiser']
-            // )->name('postContactOrganiser');
+            Route::post('/{event_id}/contact_organiser',
+                [EventViewApiController::class, 'postContactOrganiser']
+            )->name('postContactOrganiser');
     
-            // Route::post('/{event_id}/show_hidden',
-            //     [EventViewController::class, 'postShowHiddenTickets']
-            // )->name('postShowHiddenTickets');
+            Route::post('/{event_id}/show_hidden',
+                [EventViewApiController::class, 'postShowHiddenTickets']
+            )->name('postShowHiddenTickets');
     
             /*
              * Used for previewing designs in the backend. Doesn't log page views etc.
              */
-            // Route::get('/{event_id}/preview',
-            //     [EventViewController::class, 'showEventHomePreview']
-            // )->name('showEventPagePreview');
+            Route::get('/{event_id}/preview',
+                [EventViewApiController::class, 'showEventHomePreview']
+            )->name('showEventPagePreview');
     
             Route::post('{event_id}/checkout/',
                 [EventCheckoutApiController::class, 'postValidateTickets']
@@ -229,6 +255,14 @@ Route::group(['middleware' => ['jwt.verify']], function() {
                 [EventCheckoutApiController::class, 'postCreateOrder']
             )->name('postCreateOrder');
         });
+
+        Route::get('order/{order_reference}',
+        [EventCheckoutApiController::class, 'showOrderDetails']
+        )->name('showOrderDetails');
+
+        Route::get('order/{order_reference}/tickets',
+            [EventCheckoutApiController::class, 'showOrderTickets']
+        )->name('showOrderTickets');
 
         /*
          * Organiser routes
